@@ -5,26 +5,27 @@ from .models import Item, OrderItem, Order, User, Size, Address, Comuna
 
 # Register your models here.
 
-# class ProductoResource(resources.ModelResource):
-#     class Meta:
-#         model = Item
+class ProductoResource(resources.ModelResource):
+    class Meta:
+        model = Item
 
-# class TallaResource(resources.ModelResource):
-#     class Meta:
-#         model = Size
+class TallaResource(resources.ModelResource):
+    class Meta:
+        model = Size
 
-# class UserResource(resources.ModelResource):
-#     class Meta:
-#         model = User
+class UserResource(resources.ModelResource):
+    class Meta:
+        model = User
 
-# class ItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-#     resource_class = ProductoResource
+class ItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = ProductoResource
 
-# class SizeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-#     resource_class = TallaResource
+class SizeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = TallaResource
 
-# class UserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-#     resource_class = UserResource
+class UserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = UserResource
+
 admin.site.register(Size)
 admin.site.register(User)
 admin.site.register(Item)
