@@ -26,9 +26,9 @@ class SizeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class UserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = UserResource
 
-admin.site.register(Size)
-admin.site.register(User)
-admin.site.register(Item)
+admin.site.register(Size, SizeAdmin)
+admin.site.register(User, UserAdmin)
+admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem)
 admin.site.register(Order)
 admin.site.register(Address)
