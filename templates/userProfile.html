@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    Usuario 
+{% endblock %}
+{% load static%}
+{% block content %}
+<section class="seccion-perfil-usuario">
+    <div class="perfil-usuario-header">
+        <div class="perfil-usuario-portada">
+            <div class="perfil-usuario-avatar">
+                {% if user.imagen %}
+                <img src="{{user.imagen.url}}" alt="img-avatar">
+                {% else %}
+                <img src="{% static 'img/user.png' %}" alt="img-avatar">
+                {% endif %}
+                <!-- <form action="{% url 'core:user' user.id %}" method="POST">
+                    {% csrf_token %}
+                    <label for="imagen" class="boton-avatar">
+                        <i class="fa fa-image"></i>
+                    </label>
+                    <input type="file" id="imagen" name="imagen" accept="image/*">
+                    <button type="submit">Save</button>
+                </form>  -->
+            </div>
+        </div>
+    </div>
+    <div class="perfil-usuario-body">
+        <div class="perfil-usuario-bio">
+            <h3 class="titulo">{{user.first_name|title}} {{user.last_name|title}}</h3>
+            <h4 class="titulo">Nombre de usuario: {{user.username|title}}</h4>
+        </div>
+        <div class="perfil-usuario-footer">
+            <ul class="lista-datos">
+                <li><p class="text-center">
+                        <i class="icono fa fa-map-signs"></i>
+                        Direccion de usuario: <br> {{user.email}}
+                    </p> 
+                </li>
+                
+                <li>
+                    <p class="text-center"><i class="icono fa fa-map-marker"></i> 
+                    Direccion de Entrega: <br> </p>
+                </li>
+            </ul>
+            <ul class="lista-datos">
+                <li>
+                    <p class="text-center"><i class="icono fa fa-phone"></i> 
+                    Telefono: <br> {{user.phone}}</p>
+                </li>
+                <li>
+                    <p class="text-center"><i class="icono fa fa-user"></i> 
+                    Registro: <br> {{user.date_joined}}<br>.</p>
+                </li>
+            </ul>
+        </div>
+        <!-- <div class="redes-sociales">
+            <a href="" class="boton-redes facebook fab "><i class="fa fa-facebook"></i></a>
+            <a href="" class="boton-redes twitter fab "><i class="fa fa-twitter"></i></a>
+            <a href="" class="boton-redes instagram fab "><i class="fa fa-instagram"></i></a>
+        </div> -->
+    </div>
+    <br>
+    <br>
+<div class="boton-cuadro">
+    <div class="boton-cuadro_1">
+    <a href="{% url 'account_change_password' %}" class="botoness">Cambiar contraseña</a></div>
+    <div class="boton-cuadro_2">
+    <a href="{% url 'account_email' %}" class="botonesss">Cambiar Email</a></div>
+</div>
+</section>
+<!--====  End of html  ====-->
+<!-- Breadcrumb Section Begin -->
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}
+

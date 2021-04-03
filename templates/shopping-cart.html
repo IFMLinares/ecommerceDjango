@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    Tienda Llona
+{% endblock %}
+{% load static%}
+{% block content %}
+
+<div class="breacrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <a href="{% url 'core:home' %}"><i class="fa fa-home"></i> Inicio</a>
+                    <a href="{% url 'core:list-product' %}"><i class="fa fa-home"></i> Tienda</a>
+                    <span>Carrito de Compras</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cart-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th class="p-name">Nombre</th>
+                                    <th class="p-name">talla</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                    <th><i class="ti-close"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order_item in carro.items.all %}
+                                <tr>
+                                    <td class="cart-pic first-row"><img src="{{order_item.item.imagen.url}}" alt="" width="100" height="100"></td>
+                                    <td class="cart-title first-row">
+                                        <h5>{{order_item.item.title}}</h5>
+                                    </td>
+                                    <td class="cart-title first-row text-center">
+                                        <div class="col-md-7">
+                                        <h5>{{order_item.talla|title}}</h5>
+                                        <!-- <form method="POST" action="{% url 'core:update-size' %}">
+                                            {% csrf_token %}
+                                            <select class="form-control" id="newsize">
+                                                <option>{{order_item.talla|title}}</option>
+                                                {% for item in items %}
+                                                    {% if item.slug == order_item.item.slug %}
+                                                        {% for talla in item.tallas.all %}
+                                                            {% if talla|title == order_item.talla|title %}
+                                                            {% else %}
+                                                            <option value="{{talla}}" name="talla">{{talla|title}}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                            <input type="hidden" name="oldsize" value="{{order_item.talla}}">
+                                            <input type="hidden" name="slug" value="{{order_item.item.slug}}">
+                                            <button type="submit">enviar</button>
+                                        </form> -->
+                                    </div>
+                                    </td>
+                                    <td class="p-price first-row">
+                                        {% load humanize %}
+                                        {% if order_item.item.discount_price|floatformat:"0"|intcomma %}
+                                             ${{ order_item.item.discount_price|floatformat:"0"|intcomma }}
+                                             <span style="text-decoration:line-through;">${{ order_item.item.price|floatformat:"0"|intcomma }}</span>   
+                                        {% else %}
+                                                ${{ order_item.totalItem|floatformat:"0"|intcomma }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="qua-col first-row">
+                                        <div class="quantity">
+                                            <div class="cantidad">
+                                                <a class="dec qtybtn" href="{% url 'core:remove-single-item-from-cart' slug=order_item.item.slug talla=order_item.talla %}">-</a>
+                                                    <input type="text" value="{{ order_item.quantity }}" readonly>
+                                                <a class="inc qtybtn"  href="{% url 'core:add-to-cart' slug=order_item.item.slug talla=order_item.talla %}">+</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    {% if order_item.item.discount_price %}
+                                        
+                                        <td class="total-price first-row">${{ order_item.get_total_item_discount_price|floatformat:"0"|intcomma }}
+                                            <br>
+                                            (${{ order_item.get_amount_saved|floatformat:"0"|intcomma}}Ahorrados)</td>
+                                        {% else %}
+                                        <td class="total-price first-row">${{ order_item.get_total_item_price|floatformat:"0"|intcomma }}</td>
+                                    {% endif %}
+                                    <td class="close-td first-row"><a href="{% url 'core:remove-from-cart' slug=order_item.item.slug talla=order_item.talla  %}"><i class="ti-close"></a></i></td>
+                                </tr>
+                                {% empty %}
+                                <td colspan="6">
+                                    <br>
+                                    <h2 class="text-black">El carrito de compras está vacío</h2>
+                                </td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="cart-buttons">
+                                <a href="{% url 'core:list-product' %}" class="primary-btn continue-shop">Tienda</a>
+                                <a href="{% url 'core:order-sumary' %}" class="primary-btn up-cart">Actualizar Carrito</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 offset-lg-4">
+                            <div class="proceed-checkout">
+                                <ul>
+                                    {% if get_amount_saved %}
+                                    <li class="subtotal">Ahorrado <span>${{ carro.get_amount_saved}}</span></li>
+                                    {% endif %}
+                                    <li class="cart-total">Total <span>${{ carro.get_total|floatformat:"0"|intcomma }}</span></li>
+                                </ul>
+                                <a href="{% url 'core:checkout' %}" class="proceed-btn">Finalizar Compra</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

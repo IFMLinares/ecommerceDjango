@@ -1,0 +1,248 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    Tienda Llona
+{% endblock %}
+{% load static%}   
+{% block content %}
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="{% url 'core:home' %}"><i class="fa fa-home"></i> Inicio</a>
+                        <a href="{% url 'core:list-product' %}"><i class="fa fa-home"></i> Tienda</a>
+                        <span>Producto</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Product Shop Section Begin -->
+    <section class="product-shop spad page-details">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="product-pic-zoom">
+                                <img class="product-big-img" src="{{ item.imagen.url }}" alt="">
+                                <div class="zoom-icon">
+                                    <i class="fa fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="product-thumbs">
+                                <div class="product-thumbs-track ps-slider owl-carousel">
+                                    <div class="pt active" data-imgbigurl="img/product-single/product-1.jpg"><img
+                                            src="img/product-single/product-1.jpg" alt=""></div>
+                                    <div class="pt" data-imgbigurl="img/product-single/product-2.jpg"><img
+                                            src="img/product-single/product-2.jpg" alt=""></div>
+                                    <div class="pt" data-imgbigurl="img/product-single/product-3.jpg"><img
+                                            src="img/product-single/product-3.jpg" alt=""></div>
+                                    <div class="pt" data-imgbigurl="img/product-single/product-3.jpg"><img
+                                            src="img/product-single/product-3.jpg" alt=""></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="product-details">
+                                <div class="pd-title text-center">
+                                    <span>Departamento de
+                                        {% if item.departamento == 'M' %}
+                                         Mujeres
+                                        {% else %}
+                                         Hombres
+                                        {% endif %}
+                                    </span>
+                                    <h3>{{ item.title|title }}</h3>
+                                </div>
+                                <!-- <div class="pd-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <span>(5)</span>
+                                </div> -->
+                                <div class="pd-desc">
+                                    <p class=" text-left">
+                                        {{ item.description }}
+
+                                    </p>
+                                    {% load humanize %}
+                                    {% if item.discount_price %}
+                                    <h4 class="text-right">${{ item.discount_price|floatformat:"0"|intcomma }} <span class="text-right">${{ item.price }}</span></h4>
+                                    {% else %}
+                                    <h4 class="text-right">${{ item.price|floatformat:"0"|intcomma  }}</h4>
+                                    {% endif %}
+                                </div>
+                                <!-- <div class="pd-color">
+                                    <h6>Color</h6>
+                                    <div class="pd-color-choose">
+                                        <div class="cc-item">
+                                            <input type="radio" id="cc-black">
+                                            <label for="cc-black"></label>
+                                        </div>
+                                        <div class="cc-item">
+                                            <input type="radio" id="cc-yellow">
+                                            <label for="cc-yellow" class="cc-yellow"></label>
+                                        </div>
+                                        <div class="cc-item">
+                                            <input type="radio" id="cc-violet">
+                                            <label for="cc-violet" class="cc-violet"></label>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="pd-size-choose text-center">
+                                    <form action="/addto/" method="POST">
+                                            {% csrf_token %}
+                                        <div class="col-lg-5 col-md-5">
+                                            <label for="talla">Seleccione su talla:</label>
+                                            <div class="S1">
+                                        <select class="form-control form-control-lg" id="talla" name="size" required>
+                                            {% for size in item.tallas.all %}
+                                            <option value="{{size.talla}}">{{size.talla|title}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    </div>
+                                        
+                                        <!-- <div class="sc-item">
+                                            <input type="radio" id="sm-size"  >
+                                            <label for="sm-size">{{size.talla}}</label>
+                                        </div> -->
+                                        <input type="hidden" name="slug" value="{{item.slug}}">
+                                </div>
+                                <div class="text-center">
+                                    {% if user.is_authenticated %}
+                                <div class="quantity col-lg-6">
+                                    <button type="submit" class="btn primary-btn pd-cart">Añadir al carro</button>
+                                </div>
+                                {% else %}
+                                Necesitas iniciar sesión para poder añadir productos al carro
+                                <div class="quantity col-lg-8">
+                                    <a href="{% url 'account_login' %}" class="btn primary-btn pd-cart">Iniciar Sesión</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                                </form>
+                                <ul class="pd-tags">
+                                    <li><span>Departamento</span>
+                                        <br>
+                                        {% if item.departamento == 'C' %}
+                                            Caballero
+                                        {% else %}
+                                            Damas
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                                <div class="pd-share">
+                                    <div class="pd-social">
+                                        <a href="#"><i class="ti-whatsapp"></i></a>
+                                        <a href="#"><i class="ti-instagram"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Shop Section End -->
+
+    <!-- Related Products Section End -->
+    <!-- <div class="related-products spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>Otros Productos</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for i in items %}
+                <div class="col-lg-3 col-sm-6">
+                    <div class="product-item">
+                        <div class="pi-pic">
+                            <img src="{{i.imagen.url}}" alt="">
+                            <div class="sale">En Venta</div>
+                            <div class="icon">
+                                <i class="icon_heart_alt"></i>
+                            </div>
+                            <ul>
+                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                <li class="quick-view"><a href="{{ item.get_absolute_url }}">Ver Producto</a></li>
+                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="pi-text">
+                            <div class="catagory-name">
+                                {% if item.departamento == 'M' %}
+                                    Departamento de Mujeres
+                                {% else %}
+                                     Departamento de Hombres
+                                {% endif %}
+                            </div>
+                            <a href="#">
+                                <h5>{{i.title|title}}</h5>
+                            </a>
+
+                            {% if i.discount_price %}
+                            <div class="product-price">
+                                ${{ i.discount_price }}
+                                <span>${{ i.price }}</span>
+                            </div>
+                            {% else %}
+                            <div class="product-price">
+                                ${{ i.price }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div> -->
+    <!-- Related Products Section End -->
+
+    <!-- Partner Logo Section Begin -->
+    <!-- <div class="partner-logo">
+        <div class="container">
+            <div class="logo-carousel owl-carousel">
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-1.png" alt="">
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-2.png" alt="">
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-3.png" alt="">
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-4.png" alt="">
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-5.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Partner Logo Section End -->
+{% endblock %}

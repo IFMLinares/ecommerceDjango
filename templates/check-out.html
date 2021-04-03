@@ -1,0 +1,127 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Bienvenido a llona
+{% endblock %}
+{% load static%}
+{% block content %}
+    
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <a href="./shop.html">Tienda</a>
+                        <span>Finalizar Compra</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+    <!-- Shopping Cart Section Begin -->
+    
+    <section class="checkout-section spad">
+        <div class="container">
+            <form action="{% url 'core:checkout' %}" class="checkout-form" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4>Detalles de Facturación</h4>
+                            <div class="row">
+                                <div class="col-lg-12 form-noPost">
+                                    <label for="nombre">Nombre:<span></span></label>
+                                    <input type="text" name="nombre" disabled value="{{user.first_name}}">
+                                    <label for="nombre">Apellido:<span></span></label>
+                                    <input type="text" disabled value="{{user.last_name}}">
+                                    <label for="nombre">Teléfono:<span></span></label>
+                                    <input type="text" disabled value="{{user.phone}}">
+                                    <label for="nombre" id="rut">RUT:<span></span></label>
+                                    <input type="text" disabled value="{{user.rut}}">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                Selecciona tu tipo de entrega
+                                <select id="select" class="form-control form-control-lg">
+                                    <option value="retiro">Retiro en tienda.</option>
+                                    <option value="starken">Envió por Starken (cobro al receptor).</option>
+                                    <option value="delivery">Delivery (Solo a algunas regiones de chile).</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="col-md-12" style="display: none;" id="comunas">
+                                Comunas con delivery disponible:
+                                <select class="form-control form-control-lg" id="selectComuna" name="comuna">
+                                    <option value="">Seleccione un delivery</option>
+                                </select>
+                            <br>
+                            </div>
+                            <div class="row" id="form-direct" style="display: none;">
+                                <div class="col-lg-12">
+                                    <label for="street_address">Calle:<span>*</span></label>
+                                    {{form.street_address}}
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="street">Apartamento / Casa<span>*</span></label>
+                                    {{form.apartment_address}}
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="zip">Codigo Postal</label>
+                                    {{form.postal_code}}
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="zip">Déjanos un mensaje, quien lo recibirá o alguna referencia del sitio de entrega</label>
+                                    {{form.description}}
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="place-order">
+                            <h4>Tú Orden</h4>
+                            <div class="order-total">
+                                <ul class="order-table">
+                                    <li>Producto <span>Total</span></li>
+                                    {% load humanize %}
+                                    {% for order in order.items.all %}
+                                        <li class="fw-normal">x{{ order.quantity }} {{ order.item.title }}<span>${{ order.totalItem|floatformat:"0"|intcomma }}</span></li>
+                                    {% endfor %}
+                                    <li class="fw-normal">Subtotal <span>${{ order.get_total|floatformat:"0"|intcomma }}</span></li>
+                                    <input type="hidden" value="{{ order.get_total|floatformat:"0" }}" id="subtotal">
+                                    <li class="total-price" id="deli-li" style="display: none;">Delivery <span id="deli"></span></li>
+                                    <li class="total-price">Total <span id="total"></span></li>
+                                    <input type="hidden" id="totalenv" name="mount">
+                                </ul>
+                                <div class="payment-check">
+                                    {% for value, name in form.fields.payment_option.choices %}
+                                    <div class="pc-item">
+                                        <label for="{{name}}">
+                                            {{name|title}}
+                                            <input type="checkbox" id="{{name}}" value="{{value}}" name="payment_option">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <!-- <input type="hidden" value="{{ order.get_total }}" > -->
+                                <div class="order-btn">
+                                    <button type="submit" class="site-btn place-btn">Finalizar Compra</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+{% endblock %}
+
+{% block extrajs %}
+<script>
+    var data = {{json|safe}}
+</script>
+<script src="{% static 'js/hidden.js' %}"></script>
+{% endblock %}

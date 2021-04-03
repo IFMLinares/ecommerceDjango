@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zxx">
+{% load cart_template_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Fashi Template">
+    <meta name="keywords" content="Fashi, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} {% endblock %}</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    {% load static %}
+    <!-- Css Styles -->
+
+    <link rel="icon" href="{% static 'img/llonas.png' %}" type="image/png" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="header-top">
+            <div class="container">
+                <div class="ht-left">
+                    <div class="mail-service">
+                        <i class=" fa fa-envelope"></i>
+                        inversionesllonaspa@gmail.com
+                    </div>
+                    <div class="phone-service">
+                        <i class=" fa fa-phone"></i>
+                        +56 9 4980 6952
+                    </div>
+                </div>
+                {% if user.is_authenticated %}
+                <div class="ht-right">
+                    <a href="{% url 'account_logout' %}" class="login-panel"><i class="fa fa-sign-out"></i>Salir</a>
+                    <a href="{% url 'core:user' user.id %}" class="login-panel"><i
+                            class="fa fa-user"></i>{{user.first_name}}</a>
+                    <div class="top-social">
+                        <a href="https://www.instagram.com/llona.cl" target="_blank"><i class="ti-instagram"></i></a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="ht-right">
+                    <a href="{% url 'account_signup' %}" class="login-panel"><i
+                            class="fa fa-user-plus"></i>Registrate</a>
+                    <a href="{% url 'account_login' %}" class="login-panel"><i class="fa fa-user"></i>Iniciar sesion</a>
+                    <div class="top-social">
+                        <a href="https://www.instagram.com/llona.cl" target="_blank"><i class="ti-instagram"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="container1">
+            <div class="container">
+                <div class="inner-header">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7">
+                            <div class="logo text-right">
+                                <p class="llona" style=" color: rgb(255, 255, 255);">Llona</p>
+                            </div>
+                        </div>
+                        <br>
+                        <!--<div class="col-lg-6 col-md-6">
+                        <div class="advanced-search">
+                            <button type="button" class="category-btn">¿Buscas algo?</button>
+                            <div class="input-group">
+                                <input type="text" placeholder="¿Qué necesitas?">
+                                <button type="button"><i class="ti-search"></i></button>
+                            </div>
+                        </div>
+                    </div>-->
+                        {% if user.is_authenticated %}
+                        <div class="col-lg-3 text-right col-md-3">
+                            <ul class="nav-right">
+                                <li class="cart-icon">
+                                    <a href="{% url 'core:order-sumary' %}">
+                                        <i class="icon_bag_alt"></i>
+                                        <span>{{ request.user|cart_item_count }}</span>
+                                    </a>
+                                </li>
+                                <li class="cart-price"></li>
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item">
+                <div class="contenido">
+                    <div class="nav-depart">
+                        <div class="depart-btn">
+                            <i class="ti-menu"></i>
+                            <span>Departamentos</span>
+                            <ul class="depart-hover">
+                                <!--<li class="active"><a href="#">Ropa de mujer</a></li>-->
+                                <li><a href="{% url 'core:list-product' %}">Ropa de hombre</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <nav class="nav-menu mobile-menu">
+                        <ul>
+                            <li id="inicio"><a href="{% url 'core:home' %}">Inicio</a></li>
+                            <li id="tienda"><a href="{% url 'core:list-product' %}">Tienda</a></li>
+                            <li id="about"><a href="{% url 'core:about-us' %}">Quiénes somos</a></li>
+                            <li id="contact"><a href="{% url 'core:contact' %}">Contáctanos</a></li>
+                            <li id="detalles"><a href="#">Detalles</a>
+                                <ul class="dropdown">
+                                    <li><a href="{% url 'core:order-sumary' %}">Lista de<br> compras</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <li id="whatsapp"><a href="https://wa.me/message/B6YPR5OLNCDCH1" target="_blank">Whatsapp</a>
+                    </nav>
+                    <div id="mobile-menu-wrap"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <!-- Header End -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="footer-left">
+                        <div class="footer-logo">
+                            <a href="#"><img src="{% static 'img/llona1.png' %}" alt=""></a>
+                        </div>
+                        <ul>
+                            <li>Dirección: San Miguel, Santiago</li>
+                            <li>Telefono: +56 9 4980 6952</li>
+                            <li>Email: inversionesllonaspa@gmail.com</li>
+                        </ul>
+                        <div class="footer-social sss">
+                            <a href="https://www.instagram.com/llona.cl/" target="_blank"><i
+                                    class="fa fa-instagram"></i></a>
+                            <a href="https://wa.me/message/B6YPR5OLNCDCH1" target="_blank"><i
+                                    class="fa fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="footer-widget">
+                        <h5>Mi cuenta </h5>
+                        <ul>
+                            <li><a href="{% url 'core:home' %}">Inicio</a></li>
+                            <li><a href="{% url 'core:list-product' %}">Tienda</a></li>
+                            <li><a href="{% url 'core:about-us' %}">Quiénes somos</a></li>
+                            <li><a href="{% url 'core:contact' %}">Contáctanos</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 sss ">
+                    <div class="newslatter-item ">
+                        <div class="">
+                            <img src="{% static 'img/webpay1.png' %}" alt="">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-reserved">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="copyright-text">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
+                        <div class="payment-pic">
+                            <img src="{% static 'img/payment-method.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.zoom.min.js' %}"></script>
+    <script src="{% static 'js/jQuery.paginate.js' %}"></script>
+    <script src="{% static 'js/jquery.dd.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/urls.js' %}"></script>
+    {% block extrajs %}
+    {% endblock %}
+</body>
+
+</html>

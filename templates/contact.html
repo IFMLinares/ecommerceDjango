@@ -1,0 +1,151 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    Bienvenido a llona
+{% endblock %}
+{% load static%}
+{% block content %}
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="{% url 'core:home' %}"><i class="fa fa-home"></i> Inicio</a>
+                        <span>Contactanos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Map Section Begin -->
+    <!--<div class="map spad">
+        <div class="container">
+            <div class="map-inner">
+                <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d346680.4729647924!2d-70.91002667849969!3d-33.47189988715389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c5410425af2f%3A0x8475d53c400f0931!2sSantiago%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile!5e1!3m2!1ses-419!2sve!4v1609771012378!5m2!1ses-419!2sve" 
+                width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0">
+            </iframe>
+                <div class="icon">
+                    <i class="fa fa-map-marker"></i>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!-- Map Section Begin -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="contact-title">
+                        <h4>Contactanos</h4>
+                        <p>En Llona trabajamos de lunes a viernes de 10:00 a 20:00, sábados de 11:00 a 16:00 y domingos cerrados. <br>
+                            Preferimos que nos contates vía WhatsApp ante cualquier duda o consulta.
+                        </p>
+                    </div>
+                    <div class="contact-widget">
+                        <div class="cw-item">
+                            <div class="ci-icon">
+                                <i class="ti-location-pin"></i>
+                            </div>
+                            <div class="ci-text">
+                                <span>Direccion</span>
+                                <p>San Miguel, Santiago</p>
+                            </div>
+                        </div>
+                        <div class="cw-item">
+                            <div class="ci-icon">
+                                <i class="ti-mobile"></i>
+                            </div>
+                            <div class="ci-text">
+                                <span>Telefono</span>
+                                <p>+56 9 4980 6952</p>
+                            </div>
+                        </div>
+                        <div class="cw-item">
+                            <div class="ci-icon">
+                                <i class="fa fa-whatsapp"></i>
+                            </div>
+                            <div class="ci-text">
+                                <span>Whatsapp</span>
+                                <a href="https://wa.me/message/B6YPR5OLNCDCH1" target="_blank"><p>Enlace directo</p> </a>
+                            </div>
+                        </div>
+                        <div class="cw-item">
+                            <div class="ci-icon">
+                                <i class="ti-email"></i>
+                            </div>
+                            <div class="ci-text">
+                                <span>Email:</span>
+                                <p>inversionesllonaspa@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-lg-1">
+                    <div class="contact-form">
+                        <div class="leave-comment">
+                            <h4>Deja un comentario</h4>
+                            <p>Nuestro personal volverá a llamar más tarde y responderá sus preguntas.</p>
+                            <form action="{% url 'core:contact' %}" class="comment-form" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <input type="text" placeholder="Tu nombre" name="name" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="email" placeholder="Tu Email" name="email" required>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <textarea placeholder="Tu mensaje" name="message" required></textarea>
+                                        <button type="submit" class="site-btn">Enviar mensaje</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+
+    <!-- Partner Logo Section Begin -->
+    <div class="partner-logo">
+        <div class="container">
+            <div class="logo-carousel owl-carousel">
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-1.png" alt="">
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-2.png" alt="">
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-3.png" alt="">
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-4.png" alt="">
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="tablecell-inner">
+                        <img src="img/logo-carousel/logo-5.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Partner Logo Section End -->
+
+    {% endblock %}

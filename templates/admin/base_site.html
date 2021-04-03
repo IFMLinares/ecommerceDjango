@@ -1,0 +1,16 @@
+{% extends 'admin/base.html' %}
+{% load static i18n %}
+{% block title %}{{ title }} | {{ site_title|default:_('Django Site Admin')}} 
+{% endblock %}
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'img/llona.png' %}" height="50%" width="75%">    
+    <br><br>
+    </span> {{ site_header}}
+    </a>
+</h1>
+{% endblock %}
+{% block extrahead %}
+    <link rel="shortcut icon" type="image/ico" href="{% static 'img/llona.ico' %}">
+{% endblock %}

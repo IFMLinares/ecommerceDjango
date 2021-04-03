@@ -1,0 +1,23 @@
+{% extends "account/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{% trans "Sign In" %}{% endblock %}
+
+{% block site %}Inicio de sesión{% endblock %}
+
+{% block site_form %}Iniciar Sesión{% endblock %}
+
+{% block form %}
+    <p>¿No posees una cuenta? <a href="{{ signup_url }}">Regístrate</a>
+        a continuación:</p>
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+    <button type="submit" class="site-btn login-btn">Iniciar Sesión</button>
+    </form>       
+{% endblock %}
