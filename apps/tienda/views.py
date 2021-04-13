@@ -45,8 +45,13 @@ def webpayConfirm(request):
         print(request.POST)
         print(request.POST['token_ws'])
         token = request.POST['token_ws']
-        context = {'token': token}
-        return render(request, 'confirm.html', token)
+        order = request.POST
+        response = Transaction.commit(token)
+        context = {
+            'token': token,
+            'response': response
+        }
+        return render(request, 'confirm.html', context)
 
 class CheckoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
