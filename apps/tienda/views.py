@@ -16,10 +16,19 @@ from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.utils import timezone
 from transbank.common.options import Options, WebpayOptions
+from transbank.common.integration_type import IntegrationType
 from transbank.webpay.webpay_plus.transaction import Transaction, Options, TransactionCommitResponse
 from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna
 # Create your views here.
+
+Options.api_key= '1-8261204300'
+Options.commerce_code= '597037518328'
+Options.integration_type= 'LIVE'
+
+# WebpayOptions.api_key = '1-8261204300'
+# WebpayOptions.commerce_code = '597037518328'
+# WebpayOptions.integration_type = 'LIVE'
 
 """
     Vistas del sitio web a usar:
@@ -30,16 +39,14 @@ from .models import Item, Order, User, OrderItem, Address, Comuna
         UserProfileView = Vista y edición de los detalles del usuario
         ContactView = Información para el contacto
 """
-Options.api_key= '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C'
-Options.commerce_code= '597055555532'
-Options.integration_type= 'TEST'
 
 def webpayConfirm(request):
     if request.method=='POST':
         print(request.POST)
         print(request.POST['token_ws'])
         token = request.POST['token_ws']
-        return render(request, 'confirm.html', context)
+        context = {'token': token}
+        return render(request, 'confirm.html', token)
 
 class CheckoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
@@ -154,7 +161,7 @@ class ItemsListView(ListView):
 
 # vista detallada de los productos
 class ItemDetailView(DetailView):
-    model = Item 
+    model = Item
     template_name = 'product.html'
     context_object_name = 'item'
 
@@ -230,7 +237,7 @@ class ContactView(TemplateView):
         )
         email_message.content_subtype = 'html'
         email_message.send()
-        
+
         return redirect('core:contact')
 
 class AboutView(TemplateView):
