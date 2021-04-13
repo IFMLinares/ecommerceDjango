@@ -22,9 +22,11 @@ from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna
 # Create your views here.
 
-Options.api_key= '1-8261204300'
-Options.commerce_code= '597037518328'
-Options.integration_type= 'LIVE'
+
+
+Options.api_key = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C'
+Options.commerce_code = '597055555532'
+Options.integration_type = IntegrationType.TEST
 
 # WebpayOptions.api_key = '1-8261204300'
 # WebpayOptions.commerce_code = '597037518328'
@@ -42,16 +44,24 @@ Options.integration_type= 'LIVE'
 
 def webpayConfirm(request):
     if request.method=='POST':
-        print(request.POST)
-        print(request.POST['token_ws'])
-        token = request.POST['token_ws']
-        order = request.POST
-        response = Transaction.commit(token)
-        context = {
-            'token': token,
-            'response': response
-        }
-        return render(request, 'confirm.html', context)
+        if request.POST['TBK_TOKEN']:
+            tbk_token = request.POST['TBK_TOKEN']
+            tbk_orden_compra = request.POST['TBK_ORDEN_COMPRA']
+            tbk_id_sesion = request.POST['TBK_ID_SESION']
+            context = {
+                'tbk_token': tbk_token,
+                'tbk_orden_compra': tbk_orden_compra,
+                'tbk_id_sesion': tbk_id_sesion
+            }
+            return render(request, 'confirm.html', context)
+        else:
+            token = request.POST['token_ws']
+            response = Transaction.commit(token)
+            context = {
+                'token': token,
+                'response': response
+            }
+            return render(request, 'confirm.html', context)
 
 class CheckoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):

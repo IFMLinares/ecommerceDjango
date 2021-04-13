@@ -1,15 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p>Pago exitoso</p>
-    Token: {{ token }}
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Bienvenido a llona
+{% endblock %}
+{% load static%}
+{% block content %}
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Inicio</a>
+                        <a href="#"><i class="fa fa-home"></i> Tienda</a>
+                        <a href="#"><i class="fa fa-home"></i> Finalizar Compra</a>
+                        <span>Pagar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
-    {{ response.buy_order }}
-</body>
-</html>
+    <div class="container">
+        <div class="text-center">
+            {% if response %}
+            <p>Pago exitoso</p>
+            Token: {{ token }}
+            <br>
+            {{ response.buy_order }}
+            {% else %}
+            tbk token: {{tbk_token}}
+            <br>
+            tbk orden de compra: {{tbk_orden_compra}}
+            <br>
+            tbk id sesion: {{tbk_id_sesion}}
+            {% endif %}
+        </div>
+    </div>
+    <br>
+{% endblock %}
