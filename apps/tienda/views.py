@@ -153,9 +153,15 @@ class HomeView(ListView, User):
     context_object_name = 'items'
 
     def get_queryset(self):
-        items = list(self.model.objects.filter(ocultar=False))
-        if len(items) > 0:
+        items = list(self.model.objects.filter(ocultar=False).order_by('title'))
+        if len(items) > 0 and len(items) >= 5 :
             items = random.sample(items,5)
+            return items
+        elif len(items) > 0 and len(items)<5:
+            items = random.sample(items,len(items))
+            return items
+        else:
+            items = 'No hay productos para mostrar'
             return items
 
 # vista para el listado de productos
@@ -167,7 +173,7 @@ class ItemsListView(ListView):
     context_object_name = 'items'
 
     def get_queryset(self):
-        return self.model.objects.filter(ocultar=False)
+        return self.model.objects.filter(ocultar=False).order_by('title')
 
 
 # vista detallada de los productos
@@ -175,9 +181,6 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = 'product.html'
     context_object_name = 'item'
-
-    def get_queryset(self):
-        return self.model.objects.exclude(ocultar = 1)
 
 
 # vista del carrito de compras (detallado)
