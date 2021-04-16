@@ -40,7 +40,15 @@ urlSite = 'http://localhost:8000/'
 
 def webpayConfirm(request):
     if request.method=='POST':
-        if request.POST['TBK_TOKEN']:
+        if request.POST['token_ws']:
+            token = request.POST['token_ws']
+            response = Transaction.commit(token)
+            context = {
+                'token': token,
+                'response': response
+            }
+            return render(request, 'confirm.html', context)
+        else:
             tbk_token = request.POST['TBK_TOKEN']
             tbk_orden_compra = request.POST['TBK_ORDEN_COMPRA']
             tbk_id_sesion = request.POST['TBK_ID_SESION']
@@ -48,14 +56,6 @@ def webpayConfirm(request):
                 'tbk_token': tbk_token,
                 'tbk_orden_compra': tbk_orden_compra,
                 'tbk_id_sesion': tbk_id_sesion
-            }
-            return render(request, 'confirm.html', context)
-        else:
-            token = request.POST['token_ws']
-            response = Transaction.commit(token)
-            context = {
-                'token': token,
-                'response': response
             }
             return render(request, 'confirm.html', context)
 
