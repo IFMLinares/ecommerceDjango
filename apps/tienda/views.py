@@ -26,6 +26,8 @@ WebpayOptions.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
 WebpayOptions.commerce_code = '597037518328'
 WebpayOptions.integration_type = IntegrationType.LIVE
 
+urlSite = 'http://localhost:8000/'
+
 """
     Vistas del sitio web a usar:
         HomeView = Pantalla de inicio
@@ -92,7 +94,7 @@ class CheckoutView(LoginRequiredMixin, View):
 
                 buy_order = random.randint(1,300)
                 session_id = random.randint(1,300)
-                return_url = 'http://localhost:8000/confirm/'
+                return_url = urlSite+'confirm/'
 
                 response = Transaction.create(buy_order, session_id, mount, return_url)
 
@@ -132,7 +134,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 buy_order = random.randint(1,300)
                 session_id = random.randint(1,300)
                 amount = mount
-                return_url = 'http://localhost:8000/confirm/'
+                return_url = urlSite + 'confirm/'
                 response = Transaction.create(buy_order, session_id, amount, return_url)
                 context = {
                     'response': response
@@ -144,7 +146,7 @@ class CheckoutView(LoginRequiredMixin, View):
             messages.error(self.request, 'No tienes ninguna orden activa')
             return redirect('/')
 
-# vista del inicio 
+# vista del inicio
 class HomeView(ListView, User):
     model = Item
     template_name = 'index.html'
@@ -173,6 +175,9 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = 'product.html'
     context_object_name = 'item'
+
+    def get_queryset(self):
+        return self.model.objects.exclude(ocultar = 1)
 
 
 # vista del carrito de compras (detallado)
