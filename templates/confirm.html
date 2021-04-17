@@ -23,16 +23,38 @@
     <div class="container">
         <div class="text-center">
             {% if response %}
-            <p>Pago exitoso</p>
-            Token: {{ token }}
-            <br>
-            {{ response.buy_order }}
-            {% else %}
-            tbk token: {{tbk_token}}
-            <br>
-            tbk orden de compra: {{tbk_orden_compra}}
-            <br>
-            tbk id sesion: {{tbk_id_sesion}}
+                <p>Pago exitoso</p>
+                Token: {{ token }}
+                <br>
+                Orden de compra: {{ response.buy_order }}
+                <br>
+                Monto: {{response.amount}}
+                <br>
+                Estado: {{response.status}}
+                <br>
+                Id Sesión: {{response.session_id}}
+                <br>
+                Detalles de tarjeta: {{response.card_detail}}
+                <br>
+                Fecha de contabilidad: {{response.accounting_date}}
+                <br>
+                Fecha de transacción: {{response.transaction_date}}
+                <br>
+                Código de autorización: {{response.authorization_code}}
+                <br>
+                Tipo de código: {{response.payment_type_code}}
+                <br>
+                Código: {{response.response_code}}
+                <br>
+                Balance: {{response.balance}}
+                <br>
+                {% else %}
+                tbk token: {{tbk_token}}
+                <br>
+                tbk orden de compra: {{tbk_orden_compra}}
+                <br>
+                tbk id sesion: {{tbk_id_sesion}}
+                <br>
             {% endif %}
         </div>
     </div>
