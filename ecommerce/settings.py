@@ -134,11 +134,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # WEBPAY CONFIG
-from transbank.common.integration_type import IntegrationType
-from transbank.webpay import webpay_plus as BaseWebpay
-BaseWebpay.webpay_plus_default_commerce_code = '597037518328'
-BaseWebpay.default_api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
-BaseWebpay.IntegrationType = IntegrationType.LIVE
+
 
 
 #Auth
