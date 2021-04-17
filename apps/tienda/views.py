@@ -17,16 +17,10 @@ from django.shortcuts import redirect
 from django.utils import timezone
 from transbank.common.options import WebpayOptions
 from transbank.common.integration_type import IntegrationType
-from transbank.webpay.webpay_plus.transaction import Transaction, TransactionCreateError
+from transbank.webpay.webpay_plus.transaction import Transaction, TransactionCommitResponse
 from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna
 # Create your views here.
-
-from transbank.common.integration_type import IntegrationType
-from transbank.webpay import webpay_plus as BaseWebpay
-BaseWebpay.webpay_plus_default_commerce_code = '597037518328'
-BaseWebpay.default_api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
-BaseWebpay.IntegrationType = IntegrationType.LIVE
 
 optionsWebpay = WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',IntegrationType.LIVE)
 
@@ -47,7 +41,7 @@ def webpayConfirm(request):
     if request.method=='POST':
         if request.POST['token_ws']:
             token = request.POST['token_ws']
-            response = Transaction.commit(token)
+            response = Transaction.commit(token, optionsWebpay)
             context = {
                 'token': token,
                 'response': response
