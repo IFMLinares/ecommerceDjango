@@ -15,6 +15,8 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.utils import timezone
+from transbank.common.options import WebpayOptions
+from transbank.webpay.webpay_plus import WebpayPlus
 from transbank.common.integration_type import IntegrationType
 from transbank.webpay.webpay_plus.transaction import Transaction, TransactionCreateError
 from .forms.forms import CheckoutForm
@@ -26,6 +28,8 @@ from transbank.webpay import webpay_plus as BaseWebpay
 BaseWebpay.webpay_plus_default_commerce_code = '597037518328'
 BaseWebpay.default_api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
 BaseWebpay.IntegrationType = IntegrationType.LIVE
+
+WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',IntegrationType.LIVE)
 
 
 urlSite = 'http://www.llona.cl/'
