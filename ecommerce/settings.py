@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from transbank.common.options import Options, WebpayOptions
-from transbank.common.integration_type import IntegrationType
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -136,13 +134,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # WEBPAY CONFIG
-# WebpayOptions.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
-# WebpayOptions.commerce_code = '597037518328'
-# WebpayOptions.integration_type = IntegrationType.LIVE
+from transbank import webpay as BaseWebpay
+from transbank.common.integration_type import IntegrationType
 
-Options.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
-Options.commerce_code = '597037518328'
-Options.integration_type = IntegrationType.LIVE
+BaseWebpay.webpay_plus.default_api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
+BaseWebpay.webpay_plus.webpay_plus_default_commerce_code = '597037518328'
+BaseWebpay.webpay_plus.default_integration_type = IntegrationType.LIVE
+
+# Options.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
+# Options.commerce_code = '597037518328'
+# Options.integration_type = IntegrationType.LIVE
 
 #Auth
 
