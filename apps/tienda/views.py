@@ -16,7 +16,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.utils import timezone
 from transbank.common.integration_type import IntegrationType
-from transbank.webpay.webpay_plus.transaction import Transaction
+from transbank.webpay.webpay_plus.transaction import Transaction, TransactionCreateError
 from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna
 # Create your views here.
