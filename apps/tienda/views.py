@@ -28,7 +28,7 @@ BaseWebpay.webpay_plus_default_commerce_code = '597037518328'
 BaseWebpay.default_api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
 BaseWebpay.IntegrationType = IntegrationType.LIVE
 
-WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',IntegrationType.LIVE)
+optionsWebpay = WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',IntegrationType.LIVE)
 
 
 urlSite = 'http://www.llona.cl/'
@@ -101,7 +101,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 session_id = random.randint(1,300)
                 return_url = urlSite+'confirm/'
 
-                response = Transaction.create(buy_order, session_id, mount, return_url)
+                response = Transaction.create(buy_order, session_id, mount, return_url, optionsWebpay)
 
                 print(response)
                 context = {
