@@ -15,20 +15,13 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.utils import timezone
-from transbank import webpay as BaseWebpay
-# from transbank.common.options import WebpayOptions as BaseWebpayOptions
 from transbank.common.integration_type import IntegrationType
 from transbank.webpay.webpay_plus.transaction import Transaction
 from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna
 # Create your views here.
 
-# BaseWebpay.webpay_plus.default_api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
-# BaseWebpay.webpay_plus.webpay_plus_default_commerce_code = '597037518328'
-# BaseWebpay.webpay_plus.default_integration_type = IntegrationType.LIVE
-BaseWebpay.webpay_plus.commerce_code = '597037518328'
-BaseWebpay.webpay_plus.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
-BaseWebpay.webpay_plus.IntegrationType = IntegrationType.LIVE
+
 
 urlSite = 'http://www.llona.cl/'
 
