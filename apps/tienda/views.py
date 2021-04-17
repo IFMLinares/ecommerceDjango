@@ -66,7 +66,7 @@ class CheckoutView(LoginRequiredMixin, View):
             order = Order.objects.get(user=self.request.user, ordered=False)
             user = User.objects.get(username=self.request.user)
             comunas = Comuna.objects.all().order_by('nombre')
-            json_data = serializers.serialize("json",Comuna.objects.all().order_by('nombre'))
+            json_data = serialize("json",Comuna.objects.all().order_by('nombre'))
             form = CheckoutForm()
             context = {
                 'form': form,
