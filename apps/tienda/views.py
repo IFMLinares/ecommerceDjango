@@ -1,12 +1,9 @@
 import random
-from django.core import serializers
 from django.shortcuts import render
 from django.contrib import messages
 from django.core.serializers import serialize
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View, TemplateView
@@ -17,7 +14,7 @@ from django.shortcuts import redirect
 from django.utils import timezone
 from transbank.common.options import WebpayOptions
 from transbank.common.integration_type import IntegrationType
-from transbank.webpay.webpay_plus.transaction import Transaction, TransactionCommitResponse
+from transbank.webpay.webpay_plus.transaction import Transaction
 from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna
 # Create your views here.
