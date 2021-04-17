@@ -136,9 +136,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # WEBPAY CONFIG
-WebpayOptions.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
-WebpayOptions.commerce_code = '597037518328'
-WebpayOptions.integration_type = IntegrationType.LIVE
+# WebpayOptions.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
+# WebpayOptions.commerce_code = '597037518328'
+# WebpayOptions.integration_type = IntegrationType.LIVE
+
+Options.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
+Options.commerce_code = '597037518328'
+Options.integration_type = IntegrationType.LIVE
 
 #Auth
 

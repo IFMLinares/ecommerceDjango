@@ -21,10 +21,12 @@ from transbank.webpay.webpay_plus.transaction import Transaction, Options, Trans
 from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna
 # Create your views here.
-
-WebpayOptions.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
-WebpayOptions.commerce_code = '597037518328'
-WebpayOptions.integration_type = IntegrationType.LIVE
+Options.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
+Options.commerce_code = '597037518328'
+Options.integration_type = IntegrationType.LIVE
+# WebpayOptions.api_key = '2a8701f54511fbaaf4a82a9b5fa0e597'
+# WebpayOptions.commerce_code = '597037518328'
+# WebpayOptions.integration_type = IntegrationType.LIVE
 
 urlSite = 'http://localhost:8000/'
 
