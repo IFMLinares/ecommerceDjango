@@ -53,11 +53,12 @@ class ProductosOrdenadosAdmin(admin.ModelAdmin):
         'ordered',
     )
 
+
 admin.site.register(Size)
 admin.site.register(User)
 admin.site.register(Item, ItemAdmin)
-admin.site.register(OrderItem)
-admin.site.register(Order)
-admin.site.register(Address)
-admin.site.register(Comuna)
-admin.site.register(PagosWebpay)
+admin.site.register(OrderItem, ProductosOrdenadosAdmin)
+admin.site.register(Order, OrdenAdmin)
+admin.site.register(Address, DireccionAdmin)
+admin.site.register(Comuna, ComunasAdmin)
+admin.site.register(PagosWebpay, PagosAdmin)
