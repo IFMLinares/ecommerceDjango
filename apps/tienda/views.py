@@ -16,7 +16,7 @@ from transbank.common.options import WebpayOptions
 from transbank.common.integration_type import IntegrationType
 from transbank.webpay.webpay_plus.transaction import Transaction
 from .forms.forms import CheckoutForm
-from .models import Item, Order, User, OrderItem, Address, Comuna
+from .models import Item, Order, User, OrderItem, Address, Comuna, PagosWebpay
 # Create your views here.
 
 optionsWebpay = WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',IntegrationType.LIVE)
@@ -34,11 +34,22 @@ urlSite = 'http://www.llona.cl/'
         ContactView = Información para el contacto
 """
 
-def webpayConfirm(request):
-    if request.method=='POST':
+class WebpayConfirm(View):
+    def post(self, request, *args, **kwargs):
         if request.POST['token_ws']:
             token = request.POST['token_ws']
             response = Transaction.commit(token, optionsWebpay)
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            pago = PagosWebpay(
+                webpay_token = token,
+                user = self.request.user,
+                monto = response.amount,
+                fecha_transcaccion = response.transaction_date,
+            )
+            pago.save()
+            order.ordered = True
+            order.pago = pago
+            order.save()
             context = {
                 'token': token,
                 'response': response
@@ -88,8 +99,8 @@ class CheckoutView(LoginRequiredMixin, View):
 
                 messages.success(self.request, "Puede Proceder al formulario de pago con retiro en tienda")
 
-                buy_order = random.randint(1,300)
-                session_id = random.randint(1,300)
+                buy_order = random.randint(1,1000)
+                session_id = random.randint(1,1000)
                 return_url = urlSite+'confirm/'
 
                 response = Transaction.create(buy_order, session_id, mount, return_url, optionsWebpay)

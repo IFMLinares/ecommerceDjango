@@ -120,6 +120,12 @@ class OrderItem(models.Model):
         verbose_name = "Producto Ordenado"
         verbose_name_plural = "Productos Ordenados"
 
+class PagosWebpay(models.Model):
+    webpay_token = models.TextField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    monto = models.IntegerField(blank=True, null=True)
+    fecha_transcaccion = models.DateField(blank=True, null=True)
+
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
@@ -131,6 +137,7 @@ class Order(models.Model):
     billing_address = models.ForeignKey('Address', on_delete=models.SET_NULL, blank=True, null=True)
     tokenWp = models.CharField(max_length=100, null=True, blank=True)
     totalOrden = models.IntegerField(blank=True, null=True)
+    pago = models.OneToOneField(PagosWebpay, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__ (self):
         return self.user.username
