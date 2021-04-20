@@ -6,6 +6,10 @@ from .models import Item, OrderItem, Order, User, Size, Address, Comuna, PagosWe
 # Register your models here.
 
 
+class UserAdmin(admin.ModelAdmin):
+    search_fields = ['user__email','user__first_name', 'user__last_name','user__username']
+
+
 class ItemAdmin(admin.ModelAdmin):
     list_display = (
         'title',
@@ -56,7 +60,7 @@ class ProductosOrdenadosAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Size)
-admin.site.register(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem, ProductosOrdenadosAdmin)
 admin.site.register(Order, OrdenAdmin)
