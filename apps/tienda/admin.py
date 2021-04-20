@@ -9,10 +9,10 @@ from .models import Item, OrderItem, Order, User, Size, Address, Comuna, PagosWe
 class ItemAdmin(admin.ModelAdmin):
     list_display = (
         'title',
-        'tallas__talla',
-        'ocultar',
+        # 'tallas__talla',
         'price',
         'discount_price',
+        'ocultar',
     )
 
 class ComunasAdmin(admin.ModelAdmin):
