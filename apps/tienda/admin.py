@@ -37,6 +37,7 @@ class OrdenAdmin(admin.ModelAdmin):
         'totalOrden',
         'ordered',
     )
+    list_filter = ('ordered', 'tipoRetiro')
 
 class PagosAdmin(admin.ModelAdmin):
     list_display = (
