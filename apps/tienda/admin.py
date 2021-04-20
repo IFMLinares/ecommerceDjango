@@ -25,6 +25,7 @@ class ItemAdmin(admin.ModelAdmin):
         'discount_price',
         'ocultar',
     )
+    list_filter = ('ocultar', 'departamento', 'tallas')
 
 class ComunasAdmin(admin.ModelAdmin):
     list_display = (
