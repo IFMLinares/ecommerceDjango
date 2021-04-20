@@ -61,7 +61,6 @@ class ProductosOrdenadosAdmin(admin.ModelAdmin):
     list_display = (
         'user',
         'quantity',
-        'talla__talla',
         'ordered',
     )
 
