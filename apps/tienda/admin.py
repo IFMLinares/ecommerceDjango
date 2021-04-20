@@ -7,7 +7,14 @@ from .models import Item, OrderItem, Order, User, Size, Address, Comuna, PagosWe
 
 
 class UserAdmin(admin.ModelAdmin):
-    search_fields = ['email']
+    search_fields = ['email', 'first_name', 'last_name', 'phone', 'rut']
+    list_display = (
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'rut',
+    )
 
 
 class ItemAdmin(admin.ModelAdmin):
