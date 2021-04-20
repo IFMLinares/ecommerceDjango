@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from .models import Item, OrderItem, Order, User, Size, Address, Comuna
+from .models import Item, OrderItem, Order, User, Size, Address, Comuna, PagosWebpay
 
 # Register your models here.
 
@@ -33,3 +33,4 @@ admin.site.register(OrderItem)
 admin.site.register(Order)
 admin.site.register(Address)
 admin.site.register(Comuna)
+admin.site.register(PagosWebpay)
