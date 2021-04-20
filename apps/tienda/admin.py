@@ -5,29 +5,56 @@ from .models import Item, OrderItem, Order, User, Size, Address, Comuna, PagosWe
 
 # Register your models here.
 
-class ProductoResource(resources.ModelResource):
-    class Meta:
-        model = Item
 
-class TallaResource(resources.ModelResource):
-    class Meta:
-        model = Size
+class ItemAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'tallas__talla',
+        'ocultar',
+        'price',
+        'discount_price',
+    )
 
-class UserResource(resources.ModelResource):
-    class Meta:
-        model = User
+class ComunasAdmin(admin.ModelAdmin):
+    list_display = (
+        'nombre',
+        'precio',
+    )
 
-class ItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    resource_class = ProductoResource
+class DireccionAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'comuna',
+        'street_address',
+        'apartment_address',
+        'postal_code',
+    )
 
-class SizeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    resource_class = TallaResource
+class OrdenAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'tipoRetiro',
+        'totalOrden',
+        'ordered',
+    )
 
-class UserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    resource_class = UserResource
+class PagosAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'monto',
+        'fecha_transcaccion',
+    )
 
-admin.site.register(Size, SizeAdmin)
-admin.site.register(User, UserAdmin)
+class ProductosOrdenadosAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'quantity',
+        'talla__talla',
+        'ordered',
+    )
+
+admin.site.register(Size)
+admin.site.register(User)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem)
 admin.site.register(Order)
