@@ -20,7 +20,7 @@ class UserAdmin(admin.ModelAdmin):
 class ItemAdmin(admin.ModelAdmin):
     list_display = (
         'title',
-        # 'tallas__talla',
+        'tallas',
         'price',
         'discount_price',
         'ocultar',
