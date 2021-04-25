@@ -22,7 +22,8 @@
     <br>
     <div class="container">
         <div class="text-center">
-            {% if response %}
+            <a href="{% url 'core:list-product' %}" class="btn btn-success">Volver a la tienda</a>
+            <!-- {% if response %}
                 <p>Pago exitoso</p>
                 Token: {{ token }}
                 <br>
@@ -55,7 +56,7 @@
                 <br>
                 tbk id sesion: {{tbk_id_sesion}}
                 <br>
-            {% endif %}
+            {% endif %} -->
         </div>
     </div>
     <br>
