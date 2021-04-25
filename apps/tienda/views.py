@@ -55,22 +55,22 @@ def WebpayConfirm(request):
             'response': response
         }
 
-        message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
+        # message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
 
-        body = render_to_string(
-            'email_content.html',{
-                'message': message
-            },
-        )
+        # body = render_to_string(
+        #     'email_content.html',{
+        #         'message': message
+        #     },
+        # )
 
-        email_message = EmailMessage(
-            subject='COMPRA FINALIZADA',
-            body = body,
-            from_email=['inversionesllonaspa@gmail.com'],
-            to = ['inversionesllonaspa@gmail.com']
-        )
-        email_message.content_subtype = 'html'
-        email_message.send()
+        # email_message = EmailMessage(
+        #     subject='COMPRA FINALIZADA',
+        #     body = body,
+        #     from_email=['inversionesllonaspa@gmail.com'],
+        #     to = ['inversionesllonaspa@gmail.com']
+        # )
+        # email_message.content_subtype = 'html'
+        # email_message.send()
 
         return render(request, 'confirm.html', context)
     else:
