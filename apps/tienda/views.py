@@ -57,7 +57,7 @@ class WebpayConfirm(View):
                 'response': response
             }
 
-            message = 'El usuario: ' + self.request.user + ' a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
+            message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
 
             body = render_to_string(
                 'email_content.html',{
