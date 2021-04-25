@@ -53,25 +53,7 @@ $(document).ready(function(){
             formDescription.value = '';
             delivery = 0
 
-            $('#selectComuna').on('change',function(){
-                if(selectValor === 'starken'){
-                   var valor = $(this).val();
-               delivery = 0;
-               if(valor !=''){
-                   for(var i in data){
-                       if(valor === data[i].fields['nombre'] && selectValor === 'starken'){
-                           delivery = delivery;
-                       }
-                   }
-               }
-               total = parseInt(Subtotal) + delivery;
-               spanTotal.innerHTML='$'+total;
-               liDelivery.style.display = 'none';
-               ValorDelivery.innerHTML= '$'+delivery;
-               enviar.value = total
-               }
-           });
-
+            total = 0
         };
         if(selectValor == 'delivery'){
             formComunas.style.display = 'block';
