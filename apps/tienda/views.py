@@ -40,7 +40,7 @@ def WebpayConfirm(request):
     if request.POST['token_ws']:
         token = request.POST['token_ws']
         response = Transaction.commit(token)
-        order = Order.objects.get(user=request.user, ordered=False)
+        order = Order.objects.get(tokenWp=token, ordered=False)
         pago = PagosWebpay(
             webpay_token = token,
             user = request.user,
@@ -111,10 +111,6 @@ class CheckoutView(LoginRequiredMixin, View):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             if self.request.POST['street_address'] == 'retiro':
-                mount = self.request.POST['mount']
-                order.totalOrden = mount
-                order.tipoRetiro = 'tienda'
-                order.save()
 
                 messages.success(self.request, "Puede Proceder al formulario de pago con retiro en tienda")
 
@@ -123,6 +119,11 @@ class CheckoutView(LoginRequiredMixin, View):
                 return_url = urlSite+'confirm/'
 
                 response = Transaction.create(buy_order, session_id, mount, return_url)
+                mount = self.request.POST['mount']
+                order.totalOrden = mount
+                order.tipoRetiro = 'tienda'
+                order.tokenWp = response.token
+                order.save()
 
                 print(response)
                 context = {
