@@ -39,7 +39,7 @@ urlSite = 'http://www.llona.cl/'
 def WebpayConfirm(request):
     if request.POST['token_ws']:
         token = request.POST['token_ws']
-        response = Transaction.commit(token)
+        response = Transaction.commit(token, optionsWebpay)
         order = Order.objects.get(tokenWp=token, ordered=False)
         pago = PagosWebpay(
             webpay_token = token,
@@ -120,7 +120,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 session_id = random.randint(1,1000)
                 return_url = urlSite+'confirm/'
 
-                response = Transaction.create(buy_order, session_id, mount, return_url)
+                response = Transaction.create(buy_order, session_id, mount, return_url, optionsWebpay)
                 order.totalOrden = mount
                 order.tipoRetiro = 'tienda'
                 order.tokenWp = response.token
@@ -154,16 +154,16 @@ class CheckoutView(LoginRequiredMixin, View):
                 order.billing_address = address
                 order.message = mensaje
                 order.tipoRetiro = retiro
-                order.save()
                 mount = self.request.POST['mount']
                 order.totalOrden = mount
-                order.save()
                 messages.success(self.request, "Puede Proceder al formulario de pago")
                 buy_order = random.randint(1,300)
                 session_id = random.randint(1,300)
                 amount = mount
                 return_url = urlSite + 'confirm/'
-                response = Transaction.create(buy_order, session_id, amount, return_url)
+                response = Transaction.create(buy_order, session_id, amount, return_url, optionsWebpay)
+                order.tokenWp = response.token
+                order.save()
                 context = {
                     'response': response
                 }
