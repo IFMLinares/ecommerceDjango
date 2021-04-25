@@ -63,14 +63,9 @@ $(document).ready(function(){
                        }
                    }
                }
-               total = parseInt(Subtotal) + delivery;
-               spanTotal.innerHTML='$'+total;
-               liDelivery.style.display = 'block';
-               ValorDelivery.innerHTML= '$'+delivery;
-               enviar.value = total
-               }
+            }
             });
-
+        };
         if(selectValor == 'delivery'){
             formComunas.style.display = 'block';
             form.style.display = 'block';
