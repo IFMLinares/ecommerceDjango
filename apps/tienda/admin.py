@@ -52,7 +52,6 @@ class OrdenAdmin(admin.ModelAdmin):
 
 class PagosAdmin(admin.ModelAdmin):
     list_display = (
-        'user',
         'monto',
         'fecha_transcaccion',
     )
