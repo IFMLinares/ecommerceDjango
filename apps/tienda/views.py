@@ -42,7 +42,6 @@ def WebpayConfirm(request):
         response = Transaction.commit(token)
         order = Order.objects.get(tokenWp=token, ordered=False)
         pago = PagosWebpay(
-            webpay_token = token,
             user = request.user,
             monto = response.amount,
             fecha_transcaccion = response.transaction_date,
