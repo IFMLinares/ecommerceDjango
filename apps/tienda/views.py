@@ -111,7 +111,7 @@ class CheckoutView(LoginRequiredMixin, View):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             if self.request.POST['street_address'] == 'retiro':
-
+                mount = self.request.POST['mount']
                 messages.success(self.request, "Puede Proceder al formulario de pago con retiro en tienda")
 
                 buy_order = random.randint(1,1000)
@@ -119,7 +119,6 @@ class CheckoutView(LoginRequiredMixin, View):
                 return_url = urlSite+'confirm/'
 
                 response = Transaction.create(buy_order, session_id, mount, return_url)
-                mount = self.request.POST['mount']
                 order.totalOrden = mount
                 order.tipoRetiro = 'tienda'
                 order.tokenWp = response.token
