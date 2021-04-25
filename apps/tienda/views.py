@@ -45,6 +45,9 @@ def WebpayConfirm(request):
             webpay_token = token,
             monto = response.amount,
             fecha_transcaccion = response.transaction_date,
+            orden_De_compra = response.buy_order,
+            id_sesion = response.session_id
+            estado = response.status
         )
         pago.save()
         order.ordered = True
