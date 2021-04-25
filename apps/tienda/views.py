@@ -36,55 +36,54 @@ urlSite = 'http://www.llona.cl/'
         WebpayConfirm = Vista para confirmar el pago del webpay
 """
 
-class WebpayConfirm(View):
-    def post(self, request, *args, **kwargs):
-        if request.POST['token_ws']:
-            token = request.POST['token_ws']
-            response = Transaction.commit(token)
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            pago = PagosWebpay(
-                webpay_token = token,
-                user = self.request.user,
-                monto = response.amount,
-                fecha_transcaccion = response.transaction_date,
-            )
-            pago.save()
-            order.ordered = True
-            order.pago = pago
-            order.save()
-            context = {
-                'token': token,
-                'response': response
-            }
+def WebpayConfirm(request):
+    if request.POST['token_ws']:
+        token = request.POST['token_ws']
+        response = Transaction.commit(token)
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        pago = PagosWebpay(
+            webpay_token = token,
+            user = self.request.user,
+            monto = response.amount,
+            fecha_transcaccion = response.transaction_date,
+        )
+        pago.save()
+        order.ordered = True
+        order.pago = pago
+        order.save()
+        context = {
+            'token': token,
+            'response': response
+        }
 
-            message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
+        message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
 
-            body = render_to_string(
-                'email_content.html',{
-                    'message': message
-                },
-            )
+        body = render_to_string(
+            'email_content.html',{
+                'message': message
+            },
+        )
 
-            email_message = EmailMessage(
-                subject='COMPRA FINALIZADA',
-                body = body,
-                from_email=['inversionesllonaspa@gmail.com'],
-                to = ['inversionesllonaspa@gmail.com']
-            )
-            email_message.content_subtype = 'html'
-            email_message.send()
+        email_message = EmailMessage(
+            subject='COMPRA FINALIZADA',
+            body = body,
+            from_email=['inversionesllonaspa@gmail.com'],
+            to = ['inversionesllonaspa@gmail.com']
+        )
+        email_message.content_subtype = 'html'
+        email_message.send()
 
-            return render(request, 'confirm.html', context)
-        else:
-            tbk_token = request.POST['TBK_TOKEN']
-            tbk_orden_compra = request.POST['TBK_ORDEN_COMPRA']
-            tbk_id_sesion = request.POST['TBK_ID_SESION']
-            context = {
-                'tbk_token': tbk_token,
-                'tbk_orden_compra': tbk_orden_compra,
-                'tbk_id_sesion': tbk_id_sesion
-            }
-            return render(request, 'confirm.html', context)
+        return render(request, 'confirm.html', context)
+    else:
+        tbk_token = request.POST['TBK_TOKEN']
+        tbk_orden_compra = request.POST['TBK_ORDEN_COMPRA']
+        tbk_id_sesion = request.POST['TBK_ID_SESION']
+        context = {
+            'tbk_token': tbk_token,
+            'tbk_orden_compra': tbk_orden_compra,
+            'tbk_id_sesion': tbk_id_sesion
+        }
+        return render(request, 'confirm.html', context)
 
 class CheckoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
