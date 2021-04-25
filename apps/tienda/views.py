@@ -31,14 +31,16 @@ urlSite = 'http://www.llona.cl/'
         ItemDetailView = detalles de un producto único
         OrderSumaryView = Listado de productos en el carro
         UserProfileView = Vista y edición de los detalles del usuario
+        CheckoutView = Vista para chequear la compra
         ContactView = Información para el contacto
+        WebpayConfirm = Vista para confirmar el pago del webpay
 """
 
 class WebpayConfirm(View):
     def post(self, request, *args, **kwargs):
         if request.POST['token_ws']:
             token = request.POST['token_ws']
-            response = Transaction.commit(token, optionsWebpay)
+            response = Transaction.commit(token)
             order = Order.objects.get(user=self.request.user, ordered=False)
             pago = PagosWebpay(
                 webpay_token = token,
@@ -54,6 +56,24 @@ class WebpayConfirm(View):
                 'token': token,
                 'response': response
             }
+
+            message = 'El usuario: ' + self.request.user + ' a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
+
+            body = render_to_string(
+                'email_content.html',{
+                    'message': message
+                },
+            )
+
+            email_message = EmailMessage(
+                subject='COMPRA FINALIZADA',
+                body = body,
+                from_email=['inversionesllonaspa@gmail.com'],
+                to = ['inversionesllonaspa@gmail.com']
+            )
+            email_message.content_subtype = 'html'
+            email_message.send()
+
             return render(request, 'confirm.html', context)
         else:
             tbk_token = request.POST['TBK_TOKEN']
@@ -103,7 +123,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 session_id = random.randint(1,1000)
                 return_url = urlSite+'confirm/'
 
-                response = Transaction.create(buy_order, session_id, mount, return_url, optionsWebpay)
+                response = Transaction.create(buy_order, session_id, mount, return_url)
 
                 print(response)
                 context = {
@@ -172,7 +192,6 @@ class HomeView(ListView, User):
             return items
 
 # vista para el listado de productos
-
 class ItemsListView(ListView):
     model = Item
     paginate_by = 9
@@ -182,13 +201,11 @@ class ItemsListView(ListView):
     def get_queryset(self):
         return self.model.objects.filter(ocultar=False).order_by('title')
 
-
 # vista detallada de los productos
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'product.html'
     context_object_name = 'item'
-
 
 # vista del carrito de compras (detallado)
 class OrderSumaryView(LoginRequiredMixin, View):
@@ -222,7 +239,6 @@ class OrderSumaryView(LoginRequiredMixin, View):
         except ObjectDoesNotExist:
             messages.error(self.request, 'No tienes ninguna orden activa')
             return redirect('/')
-
 
 # Clase para editar el perfil de usuario
 class UserProfileView(LoginRequiredMixin, DetailView):
