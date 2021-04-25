@@ -32,7 +32,6 @@ $(document).ready(function(){
     $('#select').on('change',function(){
 
         var selectValor = $(this).val();
-        
         if(selectValor == 'retiro'){
             formComunas.style.display = 'none';
             form.style.display = 'none';
@@ -53,6 +52,23 @@ $(document).ready(function(){
             formPostalCode.value = '';
             formDescription.value = '';
             delivery = 0
+            $('#selectComuna').on('change',function(){
+                if(selectValor === 'delivery'){
+                   var valor = $(this).val();
+               delivery = 0;
+               if(valor !=''){
+                   for(var i in data){
+                       if(valor === data[i].fields['nombre'] && selectValor === 'delivery'){
+                           delivery = parseInt(data[i].fields[0])
+                       }
+                   }
+               }
+               total = parseInt(Subtotal) + delivery;
+               spanTotal.innerHTML='$'+total;
+               liDelivery.style.display = 'block';
+               enviar.value = total
+               }
+           });
         };
         if(selectValor == 'delivery'){
             formComunas.style.display = 'block';
