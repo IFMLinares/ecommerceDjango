@@ -53,23 +53,24 @@ $(document).ready(function(){
             formDescription.value = '';
             delivery = 0
             $('#selectComuna').on('change',function(){
-                if(selectValor === 'delivery'){
+                if(selectValor === 'starken'){
                    var valor = $(this).val();
                delivery = 0;
                if(valor !=''){
                    for(var i in data){
-                       if(valor === data[i].fields['nombre'] && selectValor === 'delivery'){
-                           delivery = parseInt(data[i].fields[0])
+                       if(valor === data[i].fields['nombre'] && selectValor === 'starken'){
+                           delivery = 0
                        }
                    }
                }
                total = parseInt(Subtotal) + delivery;
                spanTotal.innerHTML='$'+total;
                liDelivery.style.display = 'block';
+               ValorDelivery.innerHTML= '$'+delivery;
                enviar.value = total
                }
-           });
-        };
+            });
+
         if(selectValor == 'delivery'){
             formComunas.style.display = 'block';
             form.style.display = 'block';
