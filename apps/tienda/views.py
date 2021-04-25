@@ -35,13 +35,14 @@ urlSite = 'http://www.llona.cl/'
         ContactView = Información para el contacto
         WebpayConfirm = Vista para confirmar el pago del webpay
 """
-@login_required
+
 def WebpayConfirm(request):
     if request.POST['token_ws']:
         token = request.POST['token_ws']
         response = Transaction.commit(token)
         order = Order.objects.get(tokenWp=token, ordered=False)
         pago = PagosWebpay(
+            webpay_token = token,
             user = request.user,
             monto = response.amount,
             fecha_transcaccion = response.transaction_date,
