@@ -123,6 +123,9 @@ class OrderItem(models.Model):
 class PagosWebpay(models.Model):
     webpay_token = models.TextField()
     monto = models.IntegerField(blank=True, null=True)
+    orden_De_compra = models.CharField(max_length=240,blank=True, null=True)
+    id_sesion = models.CharField(max_length=240,blank=True, null=True)
+    estado = models.CharField(max_length=240,blank=True, null=True)
     fecha_transcaccion = models.CharField(max_length=240,blank=True, null=True)
 
 class Order(models.Model):
