@@ -123,7 +123,7 @@ class OrderItem(models.Model):
 class PagosWebpay(models.Model):
     webpay_token = models.TextField()
     monto = models.IntegerField(blank=True, null=True)
-    fecha_transcaccion = models.CharField(blank=True, null=True)
+    fecha_transcaccion = models.CharField(max_length=240,blank=True, null=True)
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
