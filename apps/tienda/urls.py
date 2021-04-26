@@ -14,7 +14,8 @@ from apps.tienda.views import (
     update_size,
     remove_single_item_from_cart,
     remove_from_cart,
-    WebpayConfirm
+    WebpayConfirm,
+    pdfFactura
 )
 app_name = 'core'
 
@@ -31,6 +32,7 @@ urlpatterns = [
     path('addto/', addto, name='addto'),
     path('update-size/', addto, name='update-size'),
     path('confirm/', WebpayConfirm, name='confirm'),
+    path('pdf-fact/<pk>/', pdfFactura, name='fact'),
     path('remove-from-cart/<slug>/<talla>/', remove_from_cart, name='remove-from-cart'),
     path('remove-single-from-cart/<slug>/<talla>/', remove_single_item_from_cart, name='remove-single-item-from-cart'),
 

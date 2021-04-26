@@ -116,6 +116,9 @@ class OrderItem(models.Model):
             return self.get_total_item_discount_price()
         return self.get_total_item_price()
 
+    def espaciado(self):
+        return 149 - (len(self.item.title) + 1)
+
     class Meta:
         verbose_name = "Producto Ordenado"
         verbose_name_plural = "Productos Ordenados"

@@ -23,7 +23,7 @@ $(document).ready(function(){
     formDescription.value = 'retiro';
     for (var i in data){
         console.log(data[i].fields['precio'])
-        selectComunas.innerHTML += 
+        selectComunas.innerHTML +=
         `<option>` + data[i].fields['nombre'] + `</option>`
     }
 

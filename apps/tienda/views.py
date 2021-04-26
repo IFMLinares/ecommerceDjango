@@ -1,6 +1,13 @@
+
+import os
 import random
 from django.shortcuts import render
 from django.contrib import messages
+from django.conf import settings
+from django.template.loader import get_template
+from django.contrib.staticfiles import finders
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.core.serializers import serialize
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
@@ -12,6 +19,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.utils import timezone
+from xhtml2pdf import pisa
 from transbank.common.options import WebpayOptions
 from transbank.common.integration_type import IntegrationType
 from transbank.webpay.webpay_plus.transaction import Transaction
@@ -253,7 +261,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     #     userImagen.save()
     #     return redirect('core:home')
 
-# Clase para la seccion de contacto 
+# Clase para la seccion de contacto
 class ContactView(TemplateView):
     template_name = 'contact.html'
 
@@ -386,3 +394,59 @@ def remove_from_cart(request, slug, talla):
     else:
         messages.info(request, 'Justo ahora no tienes ninguna orden activa')
         return redirect('core:order-sumary', slug=slug)
+
+# FUNCION PARA CREAR PDFS
+
+def pdfFactura(request, pk):
+
+    def link_callback(uri, rel):
+        """
+        Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+        resources
+        """
+        sUrl = settings.STATIC_URL        # Typically /static/
+        sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+        mUrl = settings.MEDIA_URL         # Typically /media/
+        mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
+
+        if uri.startswith(mUrl):
+            path = os.path.join(mRoot, uri.replace(mUrl, ""))
+        elif uri.startswith(sUrl):
+            path = os.path.join(sRoot, uri.replace(sUrl, ""))
+        else:
+            return uri
+            # make sure that file exists
+        if not os.path.isfile(path):
+            raise Exception(
+                'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+        return path
+
+        # make sure that file exists
+        if not os.path.isfile(path):
+            raise Exception(
+                'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+        return path
+
+    try:
+        template = get_template('pdfFactura.html')
+        order = Order.objects.filter(pk=pk)
+        if order.exists():
+            context = {
+                'order': order
+            }
+            html = template.render(context)
+            response = HttpResponse(content_type='application/pdf')
+            # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            pisa_status = pisa.CreatePDF(
+                html, dest=response, link_callback=link_callback)
+            # if error then show some funy view
+            if pisa_status.err:
+                return HttpResponse('We had some errors <pre>' + html + '</pre>')
+            return response
+        else:
+            return HttpResponse('Consulta invalida')
+    except:
+        pass
+    HttpResponseRedirect(reverse_lazy('core:home'))
