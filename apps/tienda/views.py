@@ -437,7 +437,8 @@ def pdfFactura(request, pk):
         order = Order.objects.filter(pk=pk)
         if order.exists():
             context = {
-                'order': order
+                'order': order,
+                'icon': '{}{}'.format(settings.STATIC_URL, 'img/1.png')
             }
             html = template.render(context)
             response = HttpResponse(content_type='application/pdf')
