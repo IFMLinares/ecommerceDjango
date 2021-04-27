@@ -34,25 +34,38 @@
                 <li><p class="text-center">
                         <i class="icono fa fa-map-signs"></i>
                         Direccion de usuario: <br> {{user.email}}
-                    </p> 
+                    </p>
                 </li>
-                
                 <li>
-                    <p class="text-center"><i class="icono fa fa-map-marker"></i> 
+                    <p class="text-center"><i class="icono fa fa-map-marker"></i>
                     Direccion de Entrega: <br> </p>
                 </li>
             </ul>
             <ul class="lista-datos">
                 <li>
-                    <p class="text-center"><i class="icono fa fa-phone"></i> 
+                    <p class="text-center"><i class="icono fa fa-phone"></i>
                     Telefono: <br> {{user.phone}}</p>
                 </li>
                 <li>
-                    <p class="text-center"><i class="icono fa fa-user"></i> 
+                    <p class="text-center"><i class="icono fa fa-user"></i>
                     Registro: <br> {{user.date_joined}}<br>.</p>
                 </li>
             </ul>
         </div>
+        <br>
+        {% if order %}
+        <h3>Compras Finalizadas:</h3>
+        <br>
+        {% for order in order %}
+        <div class="perfil-usuario-footer">
+            {% for item in order.items.all %}
+                {{ item.item.title }} Cantidad: x{{ item.quantity }}. Subtotal:{{ item.totalItem }} <br>
+            {% endfor %}
+            Total: ${{ order.totalOrden }}
+            <p><a href="{% url 'core:fact' order.pk %}" class="btn btn-success" target="_blank">GENERAR FACTURA</a></p>
+        </div>
+        {% endfor %}
+        {% endif %}
         <!-- <div class="redes-sociales">
             <a href="" class="boton-redes facebook fab "><i class="fa fa-facebook"></i></a>
             <a href="" class="boton-redes twitter fab "><i class="fa fa-twitter"></i></a>

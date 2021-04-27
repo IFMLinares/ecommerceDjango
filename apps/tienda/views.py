@@ -255,11 +255,14 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     template_name = 'userProfile.html'
     context_object_name = 'user'
 
-    # def post(self, request, *args, **kwargs):
-    #     imagen = request.POST['imagen']
-    #     userImagen = User(imagen=imagen)
-    #     userImagen.save()
-    #     return redirect('core:home')
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(pk=self.request.user.pk)
+        ordenes = Order.objects.filter(ordered=True)
+        context = {
+            'user': user,
+            'order': ordenes
+        }
+        return render(self.request, 'userProfile.html', context)
 
 # Clase para la seccion de contacto
 class ContactView(TemplateView):
@@ -396,7 +399,7 @@ def remove_from_cart(request, slug, talla):
         return redirect('core:order-sumary', slug=slug)
 
 # FUNCION PARA CREAR PDFS
-
+@login_required
 def pdfFactura(request, pk):
 
     def link_callback(uri, rel):
