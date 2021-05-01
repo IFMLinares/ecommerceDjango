@@ -76,7 +76,7 @@ class Item(models.Model):
     departamento = models.CharField(max_length=2, choices=DEPARTAMENT_CHOICES)
     tallas = models.ManyToManyField(Size)
     imagen = models.ImageField(upload_to = 'media')
-    categoria = models.OneToOneField(Category, on_delete=models.SET_NULL, blank=True, null=True)
+    categoria = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     ocultar = models.BooleanField(default=False)
 
     def __str__(self):

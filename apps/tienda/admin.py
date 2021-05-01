@@ -26,7 +26,7 @@ class ItemAdmin(admin.ModelAdmin):
         'ocultar',
     )
     list_filter = ('ocultar', 'departamento', 'tallas', 'categoria')
-
+    search_fields = ['title']
     list_editable = ['ocultar']
 
     list_per_page = 10
