@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from .models import Item, OrderItem, Order, User, Size, Address, Comuna, PagosWebpay, Category
@@ -15,6 +16,7 @@ class UserAdmin(admin.ModelAdmin):
         'phone',
         'rut',
     )
+    list_per_page = 10
 
 class ItemAdmin(admin.ModelAdmin):
     list_display = (
@@ -24,6 +26,10 @@ class ItemAdmin(admin.ModelAdmin):
         'ocultar',
     )
     list_filter = ('ocultar', 'departamento', 'tallas', 'categoria')
+
+    list_editable = ['ocultar']
+
+    list_per_page = 10
 
 class ComunasAdmin(admin.ModelAdmin):
     list_display = (
@@ -45,12 +51,15 @@ class DireccionAdmin(admin.ModelAdmin):
         'apartment_address',
     )
 
+    list_per_page = 10
+
 class OrdenAdmin(admin.ModelAdmin):
     list_display = (
-        'user',
+        'get_status',
+        'get_user',
+        'get_nombre',
         'tipo_Retiro',
         'totalOrden',
-        'ordered',
     )
     list_filter = ('ordered', 'tipo_Retiro')
     readonly_fields = (
@@ -66,6 +75,26 @@ class OrdenAdmin(admin.ModelAdmin):
         'totalOrden',
         'pago',
     )
+    def get_user(self, obj):
+        return obj.user.username
+    get_user.short_description = 'Usuario'
+    get_user.admin_order_field = 'user__username'
+
+    def get_nombre(self, obj):
+        return obj.user.first_name + ' ' + obj.user.last_name
+    get_nombre.short_description = 'Nombre y Apellido'
+
+    def get_status(self, obj):
+        if obj.ordered == True:
+            return format_html(
+                '<span style="color:green">PAGADO</span>&nbsp;',
+            )
+        else:
+            return format_html(
+                '<span style="color:red">NO PAGADO</span>&nbsp;',
+            )
+    get_status.short_description = 'ESTADO DE ORDEN'
+    list_per_page = 10
 
 # class PagosAdmin(admin.ModelAdmin):
 #     list_display = (
