@@ -26,11 +26,15 @@ from transbank.webpay.webpay_plus.transaction import Transaction
 from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna, PagosWebpay
 # Create your views here.
-
+# options de produccion
 optionsWebpay = WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',IntegrationType.LIVE)
+# options de integracion
+# optionsWebpay = WebpayOptions('597055555532','579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',IntegrationType.TEST)
 
-
+# url Production
 urlSite = 'http://www.llona.cl/'
+# url integration
+# urlSite = 'http://localhost:8000/'
 
 """
     Vistas del sitio web a usar:
@@ -48,42 +52,42 @@ def WebpayConfirm(request):
     if request.POST['token_ws']:
         token = request.POST['token_ws']
         response = Transaction.commit(token, optionsWebpay)
-        order = Order.objects.get(tokenWp=token, ordered=False)
-        pago = PagosWebpay(
-            webpay_token = token,
-            monto = response.amount,
-            fecha_transcaccion = response.transaction_date,
-            orden_De_compra = response.buy_order,
-            id_sesion = response.session_id,
-            estado = response.status
-        )
-        pago.save()
-        order.ordered = True
-        order.pago = pago
-        order.save()
-        context = {
-            'token': token,
-            'response': response
-        }
+        if response.response_code == 0 and response.status == 'AUTHORIZED':
+            order = Order.objects.get(tokenWp=token, ordered=False)
+            pago = PagosWebpay(
+                webpay_token = token,
+                monto = response.amount,
+                fecha_transcaccion = response.transaction_date,
+                orden_De_compra = response.buy_order,
+                id_sesion = response.session_id,
+                estado = response.status
+            )
+            pago.save()
+            order.ordered = True
+            order.pago = pago
+            order.save()
+            context = {
+                'token': token,
+                'response': response
+            }
 
-        # message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
+            message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
+            body = render_to_string(
+                'email_content.html',{
+                    'message': message
+                },
+            )
+            email_message = EmailMessage(
+                subject='COMPRA FINALIZADA',
+                body = body,
+                from_email= 'inversionesllonaspa@gmail.com',
+                to = ['inversionesllonaspa@gmail.com']
+            )
+            email_message.content_subtype = 'html'
+            email_message.send()
 
-        # body = render_to_string(
-        #     'email_content.html',{
-        #         'message': message
-        #     },
-        # )
+            return render(request, 'confirm.html', context)
 
-        # email_message = EmailMessage(
-        #     subject='COMPRA FINALIZADA',
-        #     body = body,
-        #     from_email=['inversionesllonaspa@gmail.com'],
-        #     to = ['inversionesllonaspa@gmail.com']
-        # )
-        # email_message.content_subtype = 'html'
-        # email_message.send()
-
-        return render(request, 'confirm.html', context)
     else:
         tbk_token = request.POST['TBK_TOKEN']
         tbk_orden_compra = request.POST['TBK_ORDEN_COMPRA']
@@ -99,11 +103,10 @@ class CheckoutView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # form
         try:
-            print(self.request.user)
             order = Order.objects.get(user=self.request.user, ordered=False)
-            user = User.objects.get(username=self.request.user)
+            user = User.objects.get(username=self.request.user.username)
             comunas = Comuna.objects.all().order_by('nombre')
-            json_data = serialize("json",Comuna.objects.all().order_by('nombre'))
+            json_data = serialize("json",comunas)
             form = CheckoutForm()
             context = {
                 'form': form,
@@ -285,7 +288,7 @@ class ContactView(TemplateView):
             subject='Mensaje de usuario',
             body = body,
             from_email=email,
-            to = ['titolfalcon@gmail.com']
+            to = ['inversionesllonaspa@gmail.com']
         )
         email_message.content_subtype = 'html'
         email_message.send()

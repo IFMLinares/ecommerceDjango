@@ -27,6 +27,9 @@ class User(AbstractUser):
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
 
+    def __str__(self):
+        return self.username+ '\n ' + 'Nombre y Apellido: ' + self.first_name + ' ' + self.last_name
+
 class Comuna(models.Model):
     nombre = models.CharField(max_length=20)
     precio = models.IntegerField()
@@ -36,6 +39,8 @@ class Comuna(models.Model):
 
     class Meta:
         ordering = ['nombre']
+        verbose_name = "Tienda: Comuna"
+        verbose_name_plural = "Tienda: Comunas"
 
 class Size(models.Model):
     talla = models.CharField(max_length=30)
@@ -49,8 +54,18 @@ class Size(models.Model):
         super(Size, self).save(*args,**kwargs)
 
     class Meta:
-        verbose_name = "Talla"
-        verbose_name_plural = "Tallas"
+        verbose_name = "Tienda: Talla"
+        verbose_name_plural = "Tienda: Tallas"
+
+class Category(models.Model):
+    nombre = models.CharField(max_length=240, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Tienda: Categoría"
+        verbose_name_plural = "Tienda: Categorías"
+
+    def __str__(self):
+        return self.nombre
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
@@ -61,6 +76,7 @@ class Item(models.Model):
     departamento = models.CharField(max_length=2, choices=DEPARTAMENT_CHOICES)
     tallas = models.ManyToManyField(Size)
     imagen = models.ImageField(upload_to = 'media')
+    categoria = models.OneToOneField(Category, on_delete=models.SET_NULL, blank=True, null=True)
     ocultar = models.BooleanField(default=False)
 
     def __str__(self):
@@ -90,8 +106,8 @@ class Item(models.Model):
         sizes = str([size for size in self.tallas.all().values_list('talla', flat=True)]).replace("[","").replace("]","").replace("'","").replace(",","")
         return sizes
     class Meta:
-        verbose_name = "Producto"
-        verbose_name_plural = "Productos"
+        verbose_name = "Tienda: Producto"
+        verbose_name_plural = "Tienda: Productos"
 
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
@@ -102,7 +118,7 @@ class OrderItem(models.Model):
     totalItem = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.title}"
+        return f"{self.item.title} x{self.quantity} \n"
 
     def get_total_item_price(self):
         return self.quantity * self.totalItem
@@ -131,10 +147,17 @@ class PagosWebpay(models.Model):
     estado = models.CharField(max_length=240,blank=True, null=True)
     fecha_transcaccion = models.CharField(max_length=240,blank=True, null=True)
 
+    def __str__(self):
+        return f"Estatus: {self.estado} \n Fecha de transaccion: {self.fecha_transcaccion} \n Orden de Compra: {self.orden_De_compra} \n Id de Sesión: {self.id_sesion}"
+
+    class Meta:
+        verbose_name = "Pago WebpayPlus"
+        verbose_name_plural = "Pagos WebpayPlus"
+
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
-    tipoRetiro = models.CharField(max_length=9, blank=True, null=True)
+    tipo_Retiro = models.CharField(max_length=9, blank=True, null=True)
     start_date = models.DateTimeField(auto_now_add= True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
@@ -154,8 +177,8 @@ class Order(models.Model):
         return total
 
     class Meta:
-        verbose_name = "Orden"
-        verbose_name_plural = "Ordenes"
+        verbose_name = "Tienda: Orden"
+        verbose_name_plural = "Tienda: Ordenes"
 
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -169,5 +192,5 @@ class Address(models.Model):
         return self.user.username
 
     class Meta:
-        verbose_name = "Dirección"
-        verbose_name_plural = 'Direcciones'
+        verbose_name = "Usuario: Dirección"
+        verbose_name_plural = 'Usuario: Direcciones'
