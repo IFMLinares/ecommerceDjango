@@ -12,6 +12,7 @@ var liDelivery = document.getElementById('deli-li');
 var ValorDelivery = document.getElementById('deli');
 var selectComunas = document.getElementById('selectComuna');
 var comunaStarken = document.getElementById('Comunas');
+var direccion = document.getElementById('direccion-tienda');
 $(document).ready(function(){
     formComunas.style.display = 'none';
     form.style.display = 'none';
@@ -37,6 +38,7 @@ $(document).ready(function(){
             liDelivery.style.display = 'none';
             ValorDelivery.innerHTML= 0;
             comunaStarken.style.display = 'none';
+            direccion.style.display = 'block';
         };
         if(selectValor == 'starken'){
             formComunas.style.display = 'none';
@@ -49,6 +51,7 @@ $(document).ready(function(){
             formStreet.value = '';
             formApartment.value = '';
             formDescription.value = '';
+            direccion.style.display = 'none';
             delivery = 0
 
             total = 0
@@ -60,6 +63,7 @@ $(document).ready(function(){
             comunaStarken.value = '';
             formStreet.value = '';
             formApartment.value = '';
+            formDescription.value = '';
             formDescription.value = '';
             $('#selectComuna').on('change',function(){
                  if(selectValor === 'delivery'){
