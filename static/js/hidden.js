@@ -12,7 +12,7 @@ var liDelivery = document.getElementById('deli-li');
 var ValorDelivery = document.getElementById('deli');
 var selectComunas = document.getElementById('selectComuna');
 var comunaStarken = document.getElementById('Comunas')
-var direccion = document.getElementById('direccion-tienda')
+var direccion = document.getElementById('direccion-tienda');
 $(document).ready(function(){
     formComunas.style.display = 'none';
     form.style.display = 'none';
