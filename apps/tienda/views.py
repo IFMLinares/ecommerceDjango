@@ -88,6 +88,7 @@ def WebpayConfirm(request):
 
             return render(request, 'confirm.html', context)
         else:
+            token = request.POST['token_ws']
             order = Order.objects.get(tokenWp=token, ordered=False)
             order.tokenWp.delete(save=False)
             order.save()
