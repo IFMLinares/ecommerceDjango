@@ -27,9 +27,9 @@ from .forms.forms import CheckoutForm
 from .models import Item, Order, User, OrderItem, Address, Comuna, PagosWebpay
 # Create your views here.
 # options de produccion
-optionsWebpay = WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',IntegrationType.LIVE)
+# optionsWebpay = WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',IntegrationType.LIVE)
 # options de integracion
-# optionsWebpay = WebpayOptions('597055555532','579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',IntegrationType.TEST)
+optionsWebpay = WebpayOptions('597055555532','579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',IntegrationType.TEST)
 
 # url Production
 urlSite = 'http://www.llona.cl/'
@@ -87,8 +87,11 @@ def WebpayConfirm(request):
             email_message.send()
 
             return render(request, 'confirm.html', context)
-
+        else:
+            order = Order.objects.get(tokenWp=token, ordered=False)
+            order.tokenWp.delete(save=False)
     else:
+
         tbk_token = request.POST['TBK_TOKEN']
         tbk_orden_compra = request.POST['TBK_ORDEN_COMPRA']
         tbk_id_sesion = request.POST['TBK_ID_SESION']
@@ -127,8 +130,8 @@ class CheckoutView(LoginRequiredMixin, View):
                 mount = self.request.POST['mount']
                 messages.success(self.request, "Puede Proceder al formulario de pago con retiro en tienda")
 
-                buy_order = random.randint(1,1000)
-                session_id = random.randint(1,1000)
+                buy_order = order.pk
+                session_id = order.pk
                 return_url = urlSite+'confirm/'
 
                 response = Transaction.create(buy_order, session_id, mount, return_url, optionsWebpay)
