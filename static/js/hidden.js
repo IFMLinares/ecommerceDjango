@@ -54,7 +54,6 @@ $(document).ready(function(){
             formDescription.value = '';
             direccion.style.display = 'none';
             delivery = 0
-
             total = 0
         };
         if(selectValor == 'delivery'){
