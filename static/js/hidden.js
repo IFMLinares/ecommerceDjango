@@ -73,6 +73,7 @@ $(document).ready(function(){
                     }
                 }
                 total = parseInt(Subtotal) + delivery;
+                Subtotal = total
                 spanTotal.innerHTML='$'+total;
                 liDelivery.style.display = 'block';
                 ValorDelivery.innerHTML= '$'+delivery;
