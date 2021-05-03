@@ -167,8 +167,10 @@
         <div class="text-center">
             <h3>PAGO EXITOSO</h3>
             <a href="{% url 'core:list-product' %}" class="btn btn-success">Volver a la tienda</a>
-            <br>
+            <br><br>
             <a href="{% url 'core:fact' pk=orden.pk %}" class="btn btn-success" target="_blank">Ver Orden de entrega</a>
+            <br>
+            Esta orden de entrega tambien se puede ver desde tu perfil de usuario
         </div>
     </div>
     <br>
