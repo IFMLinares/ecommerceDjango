@@ -68,7 +68,8 @@ def WebpayConfirm(request):
             order.save()
             context = {
                 'token': token,
-                'response': response
+                'response': response,
+                'orden': order
             }
 
             message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
