@@ -91,7 +91,6 @@ def WebpayConfirm(request):
             order = Order.objects.get(tokenWp=token, ordered=False)
             order.tokenWp.delete(save=False)
     else:
-
         tbk_token = request.POST['TBK_TOKEN']
         tbk_orden_compra = request.POST['TBK_ORDEN_COMPRA']
         tbk_id_sesion = request.POST['TBK_ID_SESION']
