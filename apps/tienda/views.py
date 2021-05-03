@@ -71,8 +71,14 @@ def WebpayConfirm(request):
                 'response': response,
                 'orden': order
             }
-
-            message = 'Un usuario a finalizado con exito su compra, ingresa el administrador para ver los detalles.'
+            usuario = User.objects.get(username=order.user.username)
+            message = """
+            EL USUARIO: %s A FINALIZADO CON EXITO UNA COMPRA DE $$%s <br>
+            DATOS DEL COMPRADOR:
+            NOMBRE Y APELLIDO: %s %s <br>
+            TELEFONO: %s <br>
+            POR FAVOR VE AL ADMINISTRADOR PARA VERIFICAR LA COMPRA
+            """ % (usuario.username, order.totalOrden, usuario.first_name, usuario.last_name, usuario.phone)
             body = render_to_string(
                 'email_content.html',{
                     'message': message
