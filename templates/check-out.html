@@ -23,7 +23,6 @@
     </div>
     <!-- Breadcrumb Section Begin -->
     <!-- Shopping Cart Section Begin -->
-    
     <section class="checkout-section spad">
         <div class="container">
             <form action="{% url 'core:checkout' %}" class="checkout-form" method="POST">
@@ -47,8 +46,8 @@
                                 Selecciona tu tipo de entrega
                                 <select id="select" class="form-control form-control-lg">
                                     <option value="retiro">Retiro en tienda.</option>
-                                    <option value="starken">Envió por Starken (cobro al receptor).</option>
-                                    <option value="delivery">Delivery (Solo a algunas regiones de chile).</option>
+                                    <option value="starken">Envió por Starken (Por pagar).</option>
+                                    <option value="delivery">Delivery (Santiago).</option>
                                 </select>
                             </div>
                             <br>
@@ -61,14 +60,14 @@
                             </div>
                             <div class="row" id="form-direct" style="display: none;">
                                 <div class="col-lg-12">
-                                    <label for="street_address">Calle:<span>*</span></label>
+                                    <label for="street_address">Dirección Exacta:<span>*</span></label>
                                     {{form.street_address}}
                                 </div>
                                 <div class="col-lg-12">
-                                    <label for="street">Apartamento / Casa<span>*</span></label>
+                                    <label for="street">Depapartamento / Casa / Oficina<span>*</span></label>
                                     {{form.apartment_address}}
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-12" style="display: none;">
                                     <label for="zip">Codigo Postal</label>
                                     {{form.postal_code}}
                                 </div>
