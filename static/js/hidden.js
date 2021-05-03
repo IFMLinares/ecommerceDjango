@@ -12,6 +12,7 @@ var liDelivery = document.getElementById('deli-li');
 var ValorDelivery = document.getElementById('deli');
 var selectComunas = document.getElementById('selectComuna');
 var comunaStarken = document.getElementById('Comunas')
+var direccion = document.getElementById('direccion-tienda')
 $(document).ready(function(){
     formComunas.style.display = 'none';
     form.style.display = 'none';
@@ -19,6 +20,7 @@ $(document).ready(function(){
     formStreet.value = 'retiro';
     formApartment.value = 'retiro';
     formDescription.value = 'retiro';
+    direccion.style.display = 'block';
     for (var i in data){
         console.log(data[i].fields['precio'])
         selectComunas.innerHTML +=
@@ -31,6 +33,7 @@ $(document).ready(function(){
         var selectValor = $(this).val();
         if(selectValor == 'retiro'){
             formComunas.style.display = 'none';
+            direccion.style.display = 'block';
             form.style.display = 'none';
             spanTotal.innerHTML='$'+Subtotal;
             enviar.value = Subtotal;
@@ -49,6 +52,7 @@ $(document).ready(function(){
             formStreet.value = '';
             formApartment.value = '';
             formDescription.value = '';
+            direccion.style.display = 'none';
             delivery = 0
 
             total = 0
@@ -61,6 +65,7 @@ $(document).ready(function(){
             formStreet.value = '';
             formApartment.value = '';
             formDescription.value = '';
+            direccion.style.display = 'none';
             $('#selectComuna').on('change',function(){
                  if(selectValor === 'delivery'){
                     var valor = $(this).val();
