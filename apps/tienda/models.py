@@ -186,7 +186,6 @@ class Address(models.Model):
     comuna = models.CharField(max_length=20, null=True, blank=True)
     street_address = models.CharField(max_length=100)
     apartment_address = models.CharField(max_length=100)
-    postal_code = models.CharField(max_length=100)
 
     def __str__(self):
         return self.user.username

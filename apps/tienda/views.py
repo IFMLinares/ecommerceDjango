@@ -32,9 +32,9 @@ optionsWebpay = WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',
 # optionsWebpay = WebpayOptions('597055555532','579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',IntegrationType.TEST)
 
 # url Production
-urlSite = 'https://www.llona.cl/'
+# urlSite = 'https://www.llona.cl/'
 # url integration
-# urlSite = 'http://localhost:8000/'
+urlSite = 'http://localhost:8000/'
 
 """
     Vistas del sitio web a usar:
@@ -134,7 +134,7 @@ class CheckoutView(LoginRequiredMixin, View):
         form = CheckoutForm(self.request.POST or None)
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
-            if self.request.POST['street_address'] == 'retiro':
+            if self.request.POST['select'] == 'retiro':
                 mount = self.request.POST['mount']
                 messages.success(self.request, "Puede Proceder al formulario de pago con retiro en tienda")
 
@@ -144,7 +144,7 @@ class CheckoutView(LoginRequiredMixin, View):
 
                 response = Transaction.create(buy_order, session_id, mount, return_url, optionsWebpay)
                 order.totalOrden = mount
-                order.tipoRetiro = 'tienda'
+                order.tipo_Retiro = 'tienda'
                 order.tokenWp = response.token
                 order.save()
 
@@ -154,42 +154,74 @@ class CheckoutView(LoginRequiredMixin, View):
                 }
 
                 return render(self.request, 'prueba.html', context)
-            if form.is_valid():
-                street_address =form.cleaned_data.get('street_address')
-                apartment_address =form.cleaned_data.get('apartment_address')
-                postal_code =form.cleaned_data.get('postal_code')
-                mensaje = form.cleaned_data.get('description')
-                retiro = 'starken'
-                if self.request.POST['comuna'] != '':
+            elif self.request.POST['select'] == 'starken':
+                if form.is_valid():
+                    street_address =form.cleaned_data.get('street_address')
+                    apartment_address = form.cleaned_data.get('apartment_address')
+                    mensaje = form.cleaned_data.get('description')
+                    retiro = 'starken'
+                    comuna = self.request.POST['comunaStarken']
+                    # same_shipping_address =form.cleaned_data.get('same_shipping_address')
+                    # save_info =form.cleaned_data.get('save_info')
+                    address = Address(
+                        user = self.request.user,
+                        street_address = street_address,
+                        apartment_address = apartment_address,
+                        comuna = comuna
+                    )
+                    address.save()
+                    order.billing_address = address
+                    order.message = mensaje
+                    order.tipo_Retiro = retiro
+                    mount = self.request.POST['mount']
+                    order.totalOrden = mount
+                    messages.success(self.request, "Puede Proceder al formulario de pago")
+                    buy_order = random.randint(1,300)
+                    session_id = random.randint(1,300)
+                    amount = mount
+                    return_url = urlSite + 'confirm/'
+                    response = Transaction.create(buy_order, session_id, amount, return_url, optionsWebpay)
+                    order.tokenWp = response.token
+                    order.save()
+                    context = {
+                        'response': response
+                    }
+                    return render(self.request, 'prueba.html', context)
+            elif self.request.POST['select'] == 'delivery':
+                if form.is_valid():
+                    street_address = form.cleaned_data.get('street_address')
+                    apartment_address = form.cleaned_data.get('apartment_address')
+                    mensaje = form.cleaned_data.get('description')
+                    retiro = 'delivery'
                     comuna = self.request.POST['comuna']
-                    retiro = 'tienda'
-                # same_shipping_address =form.cleaned_data.get('same_shipping_address')
-                # save_info =form.cleaned_data.get('save_info')
-                address = Address(
-                    user = self.request.user,
-                    street_address = street_address,
-                    apartment_address = apartment_address,
-                    postal_code = postal_code,
-                    comuna = comuna
-                )
-                address.save()
-                order.billing_address = address
-                order.message = mensaje
-                order.tipoRetiro = retiro
-                mount = self.request.POST['mount']
-                order.totalOrden = mount
-                messages.success(self.request, "Puede Proceder al formulario de pago")
-                buy_order = random.randint(1,300)
-                session_id = random.randint(1,300)
-                amount = mount
-                return_url = urlSite + 'confirm/'
-                response = Transaction.create(buy_order, session_id, amount, return_url, optionsWebpay)
-                order.tokenWp = response.token
-                order.save()
-                context = {
-                    'response': response
-                }
-                return render(self.request, 'prueba.html', context)
+                    # same_shipping_address =form.cleaned_data.get('same_shipping_address')
+                    # save_info =form.cleaned_data.get('save_info')
+                    address = Address(
+                        user = self.request.user,
+                        street_address = street_address,
+                        apartment_address = apartment_address,
+                        comuna = comuna
+                    )
+                    address.save()
+                    order.billing_address = address
+                    order.message = mensaje
+                    order.tipo_Retiro = retiro
+                    mount = self.request.POST['mount']
+                    order.totalOrden = mount
+                    messages.success(self.request, "Puede Proceder al formulario de pago")
+                    buy_order = random.randint(1,300)
+                    session_id = random.randint(1,300)
+                    amount = mount
+                    return_url = urlSite + 'confirm/'
+                    response = Transaction.create(buy_order, session_id, amount, return_url, optionsWebpay)
+                    order.tokenWp = response.token
+                    order.save()
+                    context = {
+                        'response': response
+                    }
+                    return render(self.request, 'prueba.html', context)
+            else:
+                return ('core:checkout')
             messages.warning(self.request, "Pago Fallido")
             return redirect('core:checkout')
         except ObjectDoesNotExist:
@@ -241,8 +273,9 @@ class OrderSumaryView(LoginRequiredMixin, View):
             for item in order.items.all():
                 cantidad += item.quantity
             if cantidad == 1:
+                precio = 10990
                 for item in order.items.all():
-                    item.totalItem = item.item.price
+                    item.totalItem = precio
                     item.save()
             elif cantidad == 2:
                 precio = 10495
@@ -250,7 +283,7 @@ class OrderSumaryView(LoginRequiredMixin, View):
                     item.totalItem = precio
                     item.save()
             else:
-                precio = 9600
+                precio = 9663.33333333332
                 for item in order.items.all():
                     item.totalItem = precio
                     item.save()

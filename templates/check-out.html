@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-md-12">
                                 Selecciona tu tipo de entrega
-                                <select id="select" class="form-control form-control-lg">
+                                <select id="select" class="form-control form-control-lg" name="select">
                                     <option value="retiro">Retiro en tienda.</option>
                                     <option value="starken">Envió por Starken (Por pagar).</option>
                                     <option value="delivery">Delivery (Santiago).</option>
@@ -67,9 +67,9 @@
                                     <label for="street">Depapartamento / Casa / Oficina<span>*</span></label>
                                     {{form.apartment_address}}
                                 </div>
-                                <div class="col-lg-12" style="display: none;">
-                                    <label for="zip">Codigo Postal</label>
-                                    {{form.postal_code}}
+                                <div class="col-lg-12" id="Comunas" style="display: none;">
+                                    <label for="comunasS">Escribe tu comuna</label>
+                                    <input type="text" class="street-first" name="comunaStarken" id="comunasS" >
                                 </div>
                                 <div class="col-lg-12">
                                     <label for="zip">Déjanos un mensaje, quien lo recibirá o alguna referencia del sitio de entrega</label>
