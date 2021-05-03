@@ -100,7 +100,7 @@ class OrdenAdmin(admin.ModelAdmin):
         'start_date',
         'message',
         'billing_address',
-        'tokenWp',
+        # 'tokenWp',
         'totalOrden',
         'pago',
     )
