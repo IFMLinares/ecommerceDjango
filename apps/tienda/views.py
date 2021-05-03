@@ -90,6 +90,7 @@ def WebpayConfirm(request):
         else:
             order = Order.objects.get(tokenWp=token, ordered=False)
             order.tokenWp.delete(save=False)
+            order.save()
     else:
         tbk_token = request.POST['TBK_TOKEN']
         tbk_orden_compra = request.POST['TBK_ORDEN_COMPRA']
