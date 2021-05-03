@@ -6,8 +6,27 @@ from .models import Item, OrderItem, Order, User, Size, Address, Comuna, PagosWe
 
 # Register your models here.
 
+class UserRsource(resources.ModelResource):
+    class Meta:
+        model = User
 
-class UserAdmin(admin.ModelAdmin):
+class ItemRsource(resources.ModelResource):
+    class Meta:
+        model = Item
+
+class SizeRsource(resources.ModelResource):
+    class Meta:
+        model = Size
+
+class ComunaRsource(resources.ModelResource):
+    class Meta:
+        model = Comuna
+
+class CategoryRsource(resources.ModelResource):
+    class Meta:
+        model = Category
+
+class UserAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['email', 'first_name', 'last_name', 'phone', 'rut']
     list_display = (
         'first_name',
@@ -18,7 +37,9 @@ class UserAdmin(admin.ModelAdmin):
     )
     list_per_page = 10
 
-class ItemAdmin(admin.ModelAdmin):
+    resource_class = UserRsource
+
+class ItemAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = (
         'title',
         'price',
@@ -30,12 +51,20 @@ class ItemAdmin(admin.ModelAdmin):
     list_editable = ['ocultar']
 
     list_per_page = 10
+    resource_class = ItemRsource
 
-class ComunasAdmin(admin.ModelAdmin):
+class ComunasAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = (
         'nombre',
         'precio',
     )
+    resource_class = ComunaRsource
+
+class SizeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = SizeRsource
+
+class CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = CategoryRsource
 
 class DireccionAdmin(admin.ModelAdmin):
     list_display = (
@@ -110,8 +139,8 @@ class OrdenAdmin(admin.ModelAdmin):
 #     )
 
 
-admin.site.register(Size)
-admin.site.register(Category)
+admin.site.register(Size, SizeAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Item, ItemAdmin)
 # admin.site.register(OrderItem, ProductosOrdenadosAdmin)
