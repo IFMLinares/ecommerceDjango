@@ -274,18 +274,19 @@ class OrderSumaryView(LoginRequiredMixin, View):
             for item in order.items.all():
                 cantidad += item.quantity
             if cantidad == 1:
-                precio = 10990
                 for item in order.items.all():
+                    a = Item.objects.get(pk=item.item.pk)
+                    precio = a.price
                     item.totalItem = precio
                     item.save()
             elif cantidad == 2:
                 precio = 10495
-                for item in order.items.all():
+                for item in order.items.filter(item__categoria__nombre='Poleras'):
                     item.totalItem = precio
                     item.save()
             else:
                 precio = 9663.33333333332
-                for item in order.items.all():
+                for item in order.items.filter(item__categoria__nombre='Poleras'):
                     item.totalItem = precio
                     item.save()
             context = {
