@@ -39,6 +39,10 @@ $(document).ready(function(){
             ValorDelivery.innerHTML= 0;
             comunaStarken.style.display = 'none';
             direccion.style.display = 'block';
+            comunaStarken.value = '';
+            formStreet.value = '';
+            formApartment.value = '';
+            formDescription.value = '';
         };
         if(selectValor == 'starken'){
             formComunas.style.display = 'none';
@@ -63,7 +67,6 @@ $(document).ready(function(){
             comunaStarken.value = '';
             formStreet.value = '';
             formApartment.value = '';
-            formDescription.value = '';
             formDescription.value = '';
             $('#selectComuna').on('change',function(){
                  if(selectValor === 'delivery'){

@@ -5,12 +5,12 @@ PAYMENT_OPTIONS = (
 )
 
 class CheckoutForm(forms.Form):
-    street_address = forms.CharField(widget=forms.TextInput(attrs={
+    street_address = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'placeholder':'', 'class':'street-first'
     }))
     apartment_address = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'placeholder':'', 'class':'street-first'
     }))
-    description = forms.CharField(widget=forms.Textarea(attrs={
+    description = forms.CharField(required=False, widget=forms.Textarea(attrs={
         'placeholder':'dejenos un mensaje aquí', 'class':'street-first form-control', 'style':'resize: both;', 'cols':'40', 'rows':'5'
     }))
