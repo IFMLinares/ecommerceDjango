@@ -32,9 +32,9 @@ optionsWebpay = WebpayOptions('597037518328','2a8701f54511fbaaf4a82a9b5fa0e597',
 # optionsWebpay = WebpayOptions('597055555532','579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',IntegrationType.TEST)
 
 # url Production
-# urlSite = 'https://www.llona.cl/'
+urlSite = 'https://www.llona.cl/'
 # url integration
-urlSite = 'http://localhost:8000/'
+# urlSite = 'http://localhost:8000/'
 
 """
     Vistas del sitio web a usar:
