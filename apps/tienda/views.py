@@ -206,8 +206,9 @@ class CheckoutView(LoginRequiredMixin, View):
                     order.message = mensaje
                     order.tipo_Retiro = retiro
                     deliveryPrice = Comuna.objects.get(nombre=comuna)
-                    deliveryPrice = deliveryPrice.precio
-                    mount = self.request.POST['mount'] + int(deliveryPrice)
+                    precio = int(deliveryPrice.precio)
+                    deliveryPrice = precio
+                    mount = int(self.request.POST['mount']) + precio
                     order.totalOrden = mount
                     messages.success(self.request, "Puede Proceder al formulario de pago")
                     buy_order = random.randint(1,300)
