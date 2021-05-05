@@ -148,7 +148,6 @@ class CheckoutView(LoginRequiredMixin, View):
                 order.tokenWp = response.token
                 order.save()
 
-                print(response)
                 context = {
                     'response': response
                 }
@@ -207,6 +206,7 @@ class CheckoutView(LoginRequiredMixin, View):
                     order.message = mensaje
                     order.tipo_Retiro = retiro
                     deliveryPrice = Comuna.objects.get(nombre=comuna)
+                    deliveryPrice = deliveryPrice.precio
                     mount = self.request.POST['mount'] + deliveryPrice
                     order.totalOrden = mount
                     messages.success(self.request, "Puede Proceder al formulario de pago")
