@@ -118,7 +118,7 @@ class OrderItem(models.Model):
     totalItem = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.item.title} x{self.quantity} \n"
+        return f"{self.item.title} x{self.quantity} talla: {self.talla} \n"
 
     def get_total_item_price(self):
         return self.quantity * self.totalItem
