@@ -188,7 +188,7 @@ class Address(models.Model):
     apartment_address = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"Comuna: {self.comuna} \n Dirección de Entrega: {self.street_address} {self.apartment_address}"
+        return f"Comuna: {self.comuna} \n Dirección Exacta: {self.street_address} \n Departamento {self.apartment_address}"
 
     class Meta:
         verbose_name = "Usuario: Dirección"
