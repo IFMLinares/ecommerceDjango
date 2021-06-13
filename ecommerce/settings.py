@@ -25,7 +25,7 @@ SECRET_KEY = 'u^l@3hx$o&wgqhie_9w#6cf9wdd-n_!4c!vd7o#*wlj2*suujz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.llona.cl', 'llona.pythonanywhere.com', 'localhost']
+ALLOWED_HOSTS = ['www.llona.cl', 'llona.pythonanywhere.com', 'localhost', 'titolfalcon1.pythonanywhere.com']
 # Application definition
 
 INSTALLED_APPS = [
